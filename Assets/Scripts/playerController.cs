@@ -66,6 +66,8 @@ public class playerController : MonoBehaviour
         if(Input.GetButtonDown("Fire1"))
         {
             print("Depressu");
+            //Use this to change the size of the boxCollider AKA hitbox
+            //collider.size = new Vector3(collider.size.x, ySize, collider.size.z);
         }
     }
 
