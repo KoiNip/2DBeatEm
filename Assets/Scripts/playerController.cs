@@ -12,15 +12,59 @@ public class playerController : MonoBehaviour
     Rigidbody2D body;
     private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
-    IWeapon sword;  //Weapon to use
+    IWeapon weapon;  //Weapon to use
+    GameObject hitbox;
+    BoxCollider2D hitboxCollider;
+
+    //Indexes for attacks
+    int a1;
+    int a2;
+    int a3;
+    int a4;
+    int a5;
+    int a6;
+    int attackIndex;
+
+    //Values for attack timer/combo cooldown
+    float attackTimeout = 1f;
+    float attackTimer;
+    bool attackTimerActive;
+
+    //Attack values
+    float _xHitBox;
+    float _yHitBox;
+    int _damage;
+    Vector2 _direction;
 
     // Start is called before the first frame update
     void Start()
     {
+        //Set values for player
         body = GetComponent<Rigidbody2D>();
         groundCheck = transform.Find("GroundCheck");    //Ground check is a separate object, have to find the transform of that object
         jumpCount = numOfJumps;
-        sword = new WeaponSword();  //Initializes all the attacks
+
+        //Find attack hitbox and object
+        hitbox = GameObject.Find("Hitbox");
+        hitboxCollider = hitbox.GetComponent<BoxCollider2D>();
+
+        //Initialize weapon
+        weapon = new WeaponSword();  //Initializes all the attacks
+
+        //Timer values
+        attackTimer = attackTimeout;
+        attackTimerActive = false;
+
+        //Keeps track of which attack we are at (x, xx, xxx etc)
+        attackIndex = 0;
+
+        //Set all attack values to 0 (No attack) to start
+        a1 = 0;
+        a2 = 0;
+        a3 = 0;
+        a4 = 0;
+        a5 = 0;
+        a6 = 0;
     }
 
     // Update is called once per frame
@@ -35,7 +79,6 @@ public class playerController : MonoBehaviour
     //Code to run when jumping
     private void Jump()
     {
-        
         if(Input.GetButtonDown("Jump") && IsGrounded()) //Jump functionality
         {
             body.velocity = new Vector2(body.velocity.x, jumpForce);
@@ -66,12 +109,83 @@ public class playerController : MonoBehaviour
 
     void attack()
     {
-        if(Input.GetButtonDown("Fire1"))
+        if(Input.GetButtonDown("Fire1") || Input.GetButtonDown("Fire2"))
         {
-            print(sword.attacks[1, 0, 0, 0, 0, 0]._xHitBox);    //For testing if the sword works
-            //Use this to change the size of the boxCollider AKA hitbox
-            //collider.size = new Vector3(collider.size.x, ySize, collider.size.z);
+            attackTimerActive = true;
+            attackTimer = attackTimeout;
         }
+
+        if(attackTimerActive)
+        {
+            if(Input.GetButtonDown("Fire1"))
+            {
+                setAttackIndecies(1);
+                attackIndex++;
+            }
+            if(Input.GetButtonDown("Fire2"))
+            {
+                setAttackIndecies(2);
+                attackIndex++;
+            }
+            attackTimer -= Time.deltaTime;
+        }
+
+        //If timer ends, or we attack 6 times, reset moves back to beginning
+        if(attackTimer <= 0.0f || attackIndex >= 6)
+        {
+            attackTimer = attackTimeout;
+            attackTimerActive = false;
+            attackIndex = 0;
+            print(a1);
+            print(a2);
+            print(a3);
+            print(a4);
+            print(a5);
+            print(a6);
+            a1 = 0;
+            a2 = 0;
+            a3 = 0;
+            a4 = 0;
+            a5 = 0;
+            a6 = 0;
+            hitboxCollider.size = new Vector2(0, 0);
+        }
+
+        //weapon.attacks[a1, a2, a3, a4, a5, a6]
+        //If the current attack exsists (Has been programmed), get it's values for attack
+        if(weapon.attacks[a1, a2, a3, a4, a5, a6].isValid)
+        {
+            weapon.attacks[a1, a2, a3, a4, a5, a6].setAttackValues(ref _xHitBox, ref _yHitBox, ref _damage, ref _direction);
+            hitboxCollider.size = new Vector2(_xHitBox, _yHitBox);
+        }
+
+    }
+
+    private void setAttackIndecies(int attackValue)
+    {
+        switch (attackIndex)
+        {
+            case 0:
+                a1 = attackValue;
+                break;
+            case 1:
+                a2 = attackValue;
+                break;
+            case 2:
+                a3 = attackValue;
+                break;
+            case 3:
+                a4 = attackValue;
+                break;
+            case 4:
+                a5 = attackValue;
+                break;
+            case 5:
+                a6 = attackValue;
+                break;
+        }
+            
+
     }
 
     //Better way to tell if we're grounded
