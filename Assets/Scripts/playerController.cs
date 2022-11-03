@@ -130,7 +130,7 @@ public class playerController : MonoBehaviour
         if(Input.GetButtonDown("Fire1") || Input.GetButtonDown("Fire2"))
         {
             attackTimerActive = true;
-            attackTimer = attackTimeout;
+            attackTimer = attackTimeout;    //Resets timer even when input invalid attack, may need to fix
         }
 
         //If timer is active, get input and set corresponding variables to determine attack
