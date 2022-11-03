@@ -12,6 +12,7 @@ public class playerController : MonoBehaviour
     Rigidbody2D body;
     private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
+    IWeapon sword;  //Weapon to use
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +20,7 @@ public class playerController : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         groundCheck = transform.Find("GroundCheck");    //Ground check is a separate object, have to find the transform of that object
         jumpCount = numOfJumps;
+        sword = new WeaponSword();  //Initializes all the attacks
     }
 
     // Update is called once per frame
@@ -33,6 +35,7 @@ public class playerController : MonoBehaviour
     //Code to run when jumping
     private void Jump()
     {
+        
         if(Input.GetButtonDown("Jump") && IsGrounded()) //Jump functionality
         {
             body.velocity = new Vector2(body.velocity.x, jumpForce);
@@ -65,7 +68,7 @@ public class playerController : MonoBehaviour
     {
         if(Input.GetButtonDown("Fire1"))
         {
-            print("Depressu");
+            print(sword.attacks[1, 0, 0, 0, 0, 0]._xHitBox);    //For testing if the sword works
             //Use this to change the size of the boxCollider AKA hitbox
             //collider.size = new Vector3(collider.size.x, ySize, collider.size.z);
         }
