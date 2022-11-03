@@ -153,7 +153,7 @@ public class playerController : MonoBehaviour
 
         //weapon.attacks[a1, a2, a3, a4, a5, a6]
         //If the current attack exsists (Has been programmed), get it's values for attack
-        if(weapon.attacks[a1, a2, a3, a4, a5, a6].isValid)
+        if(weapon.attacks[a1, a2, a3, a4, a5, a6] != null)
         {
             weapon.attacks[a1, a2, a3, a4, a5, a6].setAttackValues(ref _xHitBox, ref _yHitBox, ref _damage, ref _direction);
             hitboxCollider.size = new Vector2(_xHitBox, _yHitBox);
