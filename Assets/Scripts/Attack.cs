@@ -8,13 +8,14 @@ public class Attack
     int _yHitBox;
     int _damage;
     Vector2 _direction;
-    int _endlag = 0;
-    int _xPos;
-    int _yPos;
-    int _upTime;
+    float _endlag = 0.0f;
+    float _xPos;
+    float _yPos;
+    float _upTime;
     public bool isValid = false;    //No longer needed
 
-    public Attack(int xHit, int yHit, int damage, float xKnockback, float yKnockback, int endlag, int xPos, int yPos, int upTime)
+
+    public Attack(int xHit, int yHit, int damage, float xKnockback, float yKnockback, float xPos, float yPos, float endlag, float upTime)
     {
         this._xHitBox = xHit;
         this._yHitBox = yHit;
@@ -40,6 +41,10 @@ public class Attack
         isValid = true;
     }
 
+    /*  Sets the values for the attack in the player controller
+    *
+    *
+    */
     public void setAttackValues(ref float xHit, ref float yHit, ref int damage, ref Vector2 direction)
     {   
         xHit = this._xHitBox;

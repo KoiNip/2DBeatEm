@@ -4,14 +4,21 @@ using UnityEngine;
 
 public class playerController : MonoBehaviour
 {
-    private float horizontalInput;
-    [SerializeField] private float speed = 10;
-    [SerializeField] private float jumpForce = 10;
-    private int numOfJumps = 1; //Number of jumps player should have
-    private int jumpCount;  //Keeps track of number of jumps player has used
+    //Body, input, and ground check for basic player controller
     Rigidbody2D body;
+    private float horizontalInput;
     private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
+
+    //Values for double jump
+    private int numOfJumps = 1; //Number of jumps player should have
+    private int jumpCount;  //Keeps track of number of jumps player has used
+
+    //Speed and jump stats
+    [SerializeField] private float speed = 10;
+    [SerializeField] private float jumpForce = 10;
+
+    //Weapon body and hitbox
     IWeapon weapon;  //Weapon to use
     GameObject hitbox;
     BoxCollider2D hitboxCollider;
@@ -35,6 +42,9 @@ public class playerController : MonoBehaviour
     float _yHitBox;
     int _damage;
     Vector2 _direction;
+    float xPos;
+    float yPos;
+    float uptime;
 
     // Start is called before the first frame update
     void Start()
@@ -70,8 +80,11 @@ public class playerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Get input and apply corresponding velocity to player
         horizontalInput = Input.GetAxis("Horizontal");
-        body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);  //Applies velocity to the player
+        body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
+
+        //Perform jumps and attacks
         Jump();
         attack();
     }
@@ -79,54 +92,64 @@ public class playerController : MonoBehaviour
     //Code to run when jumping
     private void Jump()
     {
-        if(Input.GetButtonDown("Jump") && IsGrounded()) //Jump functionality
+        //Jump functionality
+        if(Input.GetButtonDown("Jump") && IsGrounded())
         {
             body.velocity = new Vector2(body.velocity.x, jumpForce);
             //Sets animator trigger to jump so it knows to play jumping animation
             //jumpAnimDisable = false;
         }
-        else if(Input.GetButtonDown("Jump") && jumpCount > 0)   //Use extra jump
+        //Use extra jump
+        else if(Input.GetButtonDown("Jump") && jumpCount > 0)
         {
             body.velocity = new Vector2(body.velocity.x, jumpForce);
             jumpCount--;
         }
-        if(IsGrounded())    //If grounded, refresh extra jump
-        {
-            jumpCount = numOfJumps;
-        }
-
-        /*if(!IsGrounded())   //If we aren't on the ground, play jump animation. Works for falling too
-        {
-            anim.SetTrigger("jump");
-        }*/
-
         //Allow us to hold the jump button to go higher
         if(Input.GetButtonUp("Jump") && body.velocity.y > 0f)
         {
             body.velocity = new Vector2(body.velocity.x, body.velocity.y * 0.5f);
         }
+
+        //If grounded, refresh double jump
+        if(IsGrounded())
+        {
+            jumpCount = numOfJumps;
+        }
+
+        //For animations, may not be used
+        /*if(!IsGrounded())   //If we aren't on the ground, play jump animation. Works for falling too
+        {
+            anim.SetTrigger("jump");
+        }*/
     }
 
     void attack()
     {
+        //If attack input is sent, start timer
         if(Input.GetButtonDown("Fire1") || Input.GetButtonDown("Fire2"))
         {
             attackTimerActive = true;
             attackTimer = attackTimeout;
         }
 
+        //If timer is active, get input and set corresponding variables to determine attack
         if(attackTimerActive)
         {
+            //Light attack
             if(Input.GetButtonDown("Fire1"))
             {
                 setAttackIndecies(1);
                 attackIndex++;
             }
+            //Heavy attack
             if(Input.GetButtonDown("Fire2"))
             {
                 setAttackIndecies(2);
                 attackIndex++;
             }
+
+            //Reduce timer every tick it is active
             attackTimer -= Time.deltaTime;
         }
 
@@ -136,12 +159,6 @@ public class playerController : MonoBehaviour
             attackTimer = attackTimeout;
             attackTimerActive = false;
             attackIndex = 0;
-            print(a1);
-            print(a2);
-            print(a3);
-            print(a4);
-            print(a5);
-            print(a6);
             a1 = 0;
             a2 = 0;
             a3 = 0;
@@ -151,16 +168,15 @@ public class playerController : MonoBehaviour
             hitboxCollider.size = new Vector2(0, 0);
         }
 
-        //weapon.attacks[a1, a2, a3, a4, a5, a6]
         //If the current attack exsists (Has been programmed), get it's values for attack
         if(weapon.attacks[a1, a2, a3, a4, a5, a6] != null)
         {
             weapon.attacks[a1, a2, a3, a4, a5, a6].setAttackValues(ref _xHitBox, ref _yHitBox, ref _damage, ref _direction);
             hitboxCollider.size = new Vector2(_xHitBox, _yHitBox);
         }
-
     }
 
+    //Used to set the attack indecies, sets what attack is being used
     private void setAttackIndecies(int attackValue)
     {
         switch (attackIndex)
@@ -191,6 +207,7 @@ public class playerController : MonoBehaviour
     //Better way to tell if we're grounded
     private bool IsGrounded()
     {
-        return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);    //Creates invisible circle at player feet, when collding with ground will return true
+        //Creates invisible circle at player feet, when collding with ground will return true
+        return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
     }
 }
