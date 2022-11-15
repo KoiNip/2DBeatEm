@@ -37,14 +37,18 @@ public class playerController : MonoBehaviour
     float attackTimer;
     bool attackTimerActive;
 
+    //Keeps track of if a new input has been given
+    bool newAttack = false;
+
     //Attack values
     float _xHitBox;
     float _yHitBox;
-    int _damage;
+    float _damage;
     Vector2 _direction;
-    float xPos;
-    float yPos;
-    float uptime;
+    float _xPos;
+    float _yPos;
+    float _endlag;
+    float _uptime;
 
     // Start is called before the first frame update
     void Start()
@@ -85,8 +89,9 @@ public class playerController : MonoBehaviour
         body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
 
         //Perform jumps and attacks
-        Jump();
         attack();
+        handleFlip();
+        Jump();
     }
 
     //Code to run when jumping
@@ -127,14 +132,15 @@ public class playerController : MonoBehaviour
     void attack()
     {
         //If attack input is sent, start timer
-        if(Input.GetButtonDown("Fire1") || Input.GetButtonDown("Fire2"))
+        if((Input.GetButtonDown("Fire1") || Input.GetButtonDown("Fire2")) && _endlag <= 0)
         {
             attackTimerActive = true;
             attackTimer = attackTimeout;    //Resets timer even when input invalid attack, may need to fix
+            newAttack = true;
         }
 
         //If timer is active, get input and set corresponding variables to determine attack
-        if(attackTimerActive)
+        if(attackTimerActive && _endlag <= 0)
         {
             //Light attack
             if(Input.GetButtonDown("Fire1"))
@@ -166,13 +172,35 @@ public class playerController : MonoBehaviour
             a5 = 0;
             a6 = 0;
             hitboxCollider.size = new Vector2(0, 0);
+            print("Attacks reset");
         }
 
         //If the current attack exsists (Has been programmed), get it's values for attack
-        if(weapon.attacks[a1, a2, a3, a4, a5, a6] != null)
+        if(weapon.attacks[a1, a2, a3, a4, a5, a6] != null && newAttack && _endlag <= 0)
         {
-            weapon.attacks[a1, a2, a3, a4, a5, a6].setAttackValues(ref _xHitBox, ref _yHitBox, ref _damage, ref _direction);
+            weapon.attacks[a1, a2, a3, a4, a5, a6].setAttackValues(ref _xHitBox, ref _yHitBox, ref _damage, ref _direction, ref _xPos, ref _yPos, ref _endlag, ref _uptime);
+            newAttack = false;
+            //Add endlag to attack timer so we can continue combo even if endlag would push past attack timer
+            attackTimer += _endlag;
+            print(a1 + a2 + a3);
+        }
+
+        //Set hitbox size and position
+        if(_uptime > 0)
+        {
             hitboxCollider.size = new Vector2(_xHitBox, _yHitBox);
+            hitboxCollider.offset = new Vector2(_xPos, _yPos);
+            _uptime -= Time.deltaTime;
+        }
+        else if (_uptime <= 0)  //Reset size/position after attack ends
+        {
+            hitboxCollider.size = new Vector2(0, 0);
+        }
+
+        //Endlag decreases once set
+        if(_endlag > 0)
+        {
+            _endlag -= Time.deltaTime;
         }
     }
 
@@ -202,6 +230,19 @@ public class playerController : MonoBehaviour
         }
             
 
+    }
+
+    //Flips player when moving to left or right
+    private void handleFlip()
+    {
+        if(horizontalInput < -0.01f) //Flip the player if moving to the left
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+        else if(horizontalInput > 0.01f) //Flip the player if moving to the right
+        {
+            transform.localScale = Vector3.one;
+        }
     }
 
     //Better way to tell if we're grounded
