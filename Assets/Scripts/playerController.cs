@@ -50,6 +50,11 @@ public class playerController : MonoBehaviour
     float _endlag;
     float _uptime;
 
+    //Variable used to keep track of if player has entered hitbox
+    public bool playerEnteredTrigger = false;
+    float invinTimer;
+    float maxInvinceTime = .5f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -79,6 +84,9 @@ public class playerController : MonoBehaviour
         a4 = 0;
         a5 = 0;
         a6 = 0;
+
+        //Set invincible timer to 0 to start
+        invinTimer = 0;
     }
 
     // Update is called once per frame
@@ -92,6 +100,9 @@ public class playerController : MonoBehaviour
         attack();
         handleFlip();
         Jump();
+
+        //Manage the invincibility timer, decrementing as needed and setting playerEntered Trigger
+        manageInvinTimer();
     }
 
     //Code to run when jumping
@@ -228,7 +239,6 @@ public class playerController : MonoBehaviour
                 a6 = attackValue;
                 break;
         }
-            
 
     }
 
@@ -242,6 +252,27 @@ public class playerController : MonoBehaviour
         else if(horizontalInput > 0.01f) //Flip the player if moving to the right
         {
             transform.localScale = Vector3.one;
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (invinTimer <= 0)    //If we aren't invincible, set player Entered to true
+        {
+            playerEnteredTrigger = true;
+            invinTimer = maxInvinceTime;
+        }
+    }
+
+    void manageInvinTimer()
+    {
+        if(invinTimer > 0)
+        {
+            invinTimer -= Time.deltaTime;
+        }
+        else if (invinTimer <= 0)
+        {
+            playerEnteredTrigger = false;
         }
     }
 
