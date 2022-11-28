@@ -55,6 +55,13 @@ public class playerController : MonoBehaviour
     private Animator anim;
     private bool grounded;
 
+    //Variable used to keep track of if player has entered hitbox
+    public float invinTimer;
+    public float maxInvinceTime = 1f;
+    public bool isInvincible = false;
+
+    //Health
+    public float health = 100f;
 
     // Start is called before the first frame update
     void Start()
@@ -86,6 +93,9 @@ public class playerController : MonoBehaviour
         a4 = 0;
         a5 = 0;
         a6 = 0;
+
+        //Set invincible timer to 0 to start
+        invinTimer = 0;
     }
 
     // Update is called once per frame
@@ -104,6 +114,8 @@ public class playerController : MonoBehaviour
         Jump();
 
         
+        //Manage the invincibility timer, decrementing as needed and setting playerEntered Trigger
+        manageInvinTimer();
     }
 
     //Code to run when jumping
@@ -219,6 +231,7 @@ public class playerController : MonoBehaviour
         else if (_uptime <= 0)  //Reset size/position after attack ends
         {
             hitboxCollider.size = new Vector2(0, 0);
+            hitboxCollider.offset = new Vector2(0, 0);
         }
 
         //Endlag decreases once set
@@ -252,7 +265,6 @@ public class playerController : MonoBehaviour
                 a6 = attackValue;
                 break;
         }
-            
 
     }
 
@@ -266,6 +278,30 @@ public class playerController : MonoBehaviour
         else if(horizontalInput > 0.01f) //Flip the player if moving to the right
         {
             transform.localScale = Vector3.one;
+        }
+    }
+
+    //Responsible for dealing damage
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other != null)
+        {
+            if(other.gameObject.tag == "Enemy") //Deal damage
+            {
+                print("Dealt damage");
+            }
+        }
+    }
+
+    void manageInvinTimer()
+    {
+        if(invinTimer > 0)  //If invincible, decrease timer
+        {
+            invinTimer -= Time.deltaTime;
+        }
+        else if (invinTimer <= 0)   //If not invincible, set bool
+        {
+            isInvincible = false;
         }
     }
 
