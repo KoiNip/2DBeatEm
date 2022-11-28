@@ -16,10 +16,8 @@ public class Enemy1 : Entity
     [SerializeField] private D_ChargeState chargeStateData;
     [SerializeField] private D_LookForPlayer lookForPlayerStateDate;
 
-    private float health = 100f;    //Health each enemy has
-    private float damage = 30f; //Stores damage dealt
-    Rigidbody2D body;   //Stores enemy rigid body for knockback
-    private GameObject player;  //Stores player object to be damaged
+    private bool enemyEnteredTrigger = false;
+    BoxCollider2D playerAttackCollider;
 
     public override void Start()
     {
@@ -32,30 +30,5 @@ public class Enemy1 : Entity
         lookForPlayerState = new E1_LookForPlayer(this, stateMachine, "lookForPlayer", lookForPlayerStateDate, this);
 
         stateMachine.Initialize(moveState);
-        
-        GameObject getBody = GameObject.Find("Alive");
-        body = getBody.GetComponent<Rigidbody2D>();
-        player = GameObject.FindWithTag("Player");
-    }
-
-    void update()
-    {
-        if(player.GetComponent<playerController>().playerEnteredTrigger)
-        {
-            //Do player damage here
-            print("It worked");
-        }
-    }
-
-    public void takeDamage(float damage, Vector2 knockback)
-    {
-        body.velocity = knockback;
-        health -= damage;
-
-        if(health <= 0)
-        {
-            print("Enemy killed!");
-            Destroy(this);
-        }
     }
 }

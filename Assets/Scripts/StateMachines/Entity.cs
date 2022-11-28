@@ -34,6 +34,7 @@ public class Entity : MonoBehaviour
     {
         stateMachine.currentState.LogicUpdate();
     }
+
     public virtual void FixedUpdate()
     {
         stateMachine.currentState.PhysicsUpdate();

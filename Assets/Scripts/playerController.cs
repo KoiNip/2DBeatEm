@@ -51,9 +51,12 @@ public class playerController : MonoBehaviour
     float _uptime;
 
     //Variable used to keep track of if player has entered hitbox
-    public bool playerEnteredTrigger = false;
-    float invinTimer;
-    float maxInvinceTime = .5f;
+    public float invinTimer;
+    public float maxInvinceTime = 1f;
+    public bool isInvincible = false;
+
+    //Health
+    public float health = 100f;
 
     // Start is called before the first frame update
     void Start()
@@ -206,6 +209,7 @@ public class playerController : MonoBehaviour
         else if (_uptime <= 0)  //Reset size/position after attack ends
         {
             hitboxCollider.size = new Vector2(0, 0);
+            hitboxCollider.offset = new Vector2(0, 0);
         }
 
         //Endlag decreases once set
@@ -255,24 +259,27 @@ public class playerController : MonoBehaviour
         }
     }
 
+    //Responsible for dealing damage
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (invinTimer <= 0)    //If we aren't invincible, set player Entered to true
+        if(other != null)
         {
-            playerEnteredTrigger = true;
-            invinTimer = maxInvinceTime;
+            if(other.gameObject.tag == "Enemy") //Deal damage
+            {
+                print("Dealt damage");
+            }
         }
     }
 
     void manageInvinTimer()
     {
-        if(invinTimer > 0)
+        if(invinTimer > 0)  //If invincible, decrease timer
         {
             invinTimer -= Time.deltaTime;
         }
-        else if (invinTimer <= 0)
+        else if (invinTimer <= 0)   //If not invincible, set bool
         {
-            playerEnteredTrigger = false;
+            isInvincible = false;
         }
     }
 
