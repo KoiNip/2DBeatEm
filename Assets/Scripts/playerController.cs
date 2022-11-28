@@ -8,6 +8,7 @@ public class playerController : MonoBehaviour
     Rigidbody2D body;
     private float horizontalInput;
     private Transform groundCheck;
+    
     [SerializeField] private LayerMask groundLayer;
 
     //Values for double jump
@@ -50,6 +51,11 @@ public class playerController : MonoBehaviour
     float _endlag;
     float _uptime;
 
+    //Animation Stuff
+    private Animator anim;
+    private bool grounded;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -57,6 +63,7 @@ public class playerController : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         groundCheck = transform.Find("GroundCheck");    //Ground check is a separate object, have to find the transform of that object
         jumpCount = numOfJumps;
+        anim = GetComponent<Animator>();
 
         //Find attack hitbox and object
         hitbox = GameObject.Find("Hitbox");
@@ -88,15 +95,21 @@ public class playerController : MonoBehaviour
         horizontalInput = Input.GetAxis("Horizontal");
         body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
 
+        //Animation
+        anim.SetBool("run", horizontalInput != 0);
+
         //Perform jumps and attacks
         attack();
         handleFlip();
         Jump();
+
+        
     }
 
     //Code to run when jumping
     private void Jump()
     {
+        grounded = false;
         //Jump functionality
         if(Input.GetButtonDown("Jump") && IsGrounded())
         {
@@ -120,14 +133,25 @@ public class playerController : MonoBehaviour
         if(IsGrounded())
         {
             jumpCount = numOfJumps;
+            anim.SetBool("grounded", true);
+        }
+        else if (!IsGrounded())
+        {
+            anim.SetBool("grounded", false);
         }
 
-        //For animations, may not be used
-        /*if(!IsGrounded())   //If we aren't on the ground, play jump animation. Works for falling too
-        {
-            anim.SetTrigger("jump");
-        }*/
+
     }
+
+    /*
+    //For Animation Purposes, stop jumping animation from playing if grounded
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Ground")
+            grounded = true;
+    }
+    */
+    
 
     void attack()
     {
@@ -248,6 +272,7 @@ public class playerController : MonoBehaviour
     //Better way to tell if we're grounded
     private bool IsGrounded()
     {
+
         //Creates invisible circle at player feet, when collding with ground will return true
         return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
     }

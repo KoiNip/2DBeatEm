@@ -219,7 +219,7 @@ GameObject:
   - component: {fileID: 644588815}
   m_Layer: 6
   m_Name: Ground
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -252,6 +252,31 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &936146606 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2475127548279350109, guid: 6c18309d6b2d8de4bacecfef22cdcba6, type: 3}
+  m_PrefabInstance: {fileID: 2475127548213301154}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &936146612
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 936146606}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 95212d25204df8941823735f0d829fec, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1608571535
 GameObject:
   m_ObjectHideFlags: 0
@@ -268,7 +293,7 @@ GameObject:
   - component: {fileID: 1608571540}
   m_Layer: 6
   m_Name: Tilemap
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -935,13 +960,7 @@ CompositeCollider2D:
   m_ColliderPaths:
   - m_Collider: {fileID: 1608571539}
     m_ColliderPaths:
-    - - X: 60000041
-        Y: -30000100
-      - X: 49999959
-        Y: -30000100
-      - X: 49999900
-        Y: -30000041
-      - X: 49999900
+    - - X: 120000000
         Y: -30000000
       - X: -120000000
         Y: -30000000
@@ -949,12 +968,6 @@ CompositeCollider2D:
         Y: -50000000
       - X: 120000000
         Y: -50000000
-      - X: 120000000
-        Y: -30000000
-      - X: 60000100
-        Y: -30000000
-      - X: 60000100
-        Y: -30000041
   m_CompositePaths:
     m_Paths:
     - - {x: 11.99997, y: -5}
@@ -991,6 +1004,46 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2475127547700331479, guid: 6c18309d6b2d8de4bacecfef22cdcba6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2475127548279349920, guid: 6c18309d6b2d8de4bacecfef22cdcba6, type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2475127548279349920, guid: 6c18309d6b2d8de4bacecfef22cdcba6, type: 3}
+      propertyPath: m_FlipY
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2475127548279349920, guid: 6c18309d6b2d8de4bacecfef22cdcba6, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300088, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
+    - target: {fileID: 2475127548279349920, guid: 6c18309d6b2d8de4bacecfef22cdcba6, type: 3}
+      propertyPath: m_SpriteSortPoint
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2475127548279349921, guid: 6c18309d6b2d8de4bacecfef22cdcba6, type: 3}
+      propertyPath: m_Size.y
+      value: 1.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 2475127548279349921, guid: 6c18309d6b2d8de4bacecfef22cdcba6, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2475127548279349921, guid: 6c18309d6b2d8de4bacecfef22cdcba6, type: 3}
+      propertyPath: m_SpriteTilingProperty.pivot.y
+      value: 0.345
+      objectReference: {fileID: 0}
+    - target: {fileID: 2475127548279349921, guid: 6c18309d6b2d8de4bacecfef22cdcba6, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 3.125
+      objectReference: {fileID: 0}
+    - target: {fileID: 2475127548279349921, guid: 6c18309d6b2d8de4bacecfef22cdcba6, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 1.71875
+      objectReference: {fileID: 0}
     - target: {fileID: 2475127548279349922, guid: 6c18309d6b2d8de4bacecfef22cdcba6, type: 3}
       propertyPath: m_RootOrder
       value: 2
