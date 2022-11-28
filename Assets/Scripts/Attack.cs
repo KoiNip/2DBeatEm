@@ -4,18 +4,17 @@ using UnityEngine;
 
 public class Attack
 {
-    public int _xHitBox;
-    int _yHitBox;
-    int _damage;
+    float _xHitBox;
+    float _yHitBox;
+    float _damage;
     Vector2 _direction;
     float _endlag = 0.0f;
     float _xPos;
     float _yPos;
     float _upTime;
-    public bool isValid = false;    //No longer needed
 
 
-    public Attack(int xHit, int yHit, int damage, float xKnockback, float yKnockback, float xPos, float yPos, float endlag, float upTime)
+    public Attack(float xHit, float yHit, float damage, float xKnockback, float yKnockback, float xPos, float yPos, float endlag, float upTime)
     {
         this._xHitBox = xHit;
         this._yHitBox = yHit;
@@ -25,31 +24,26 @@ public class Attack
         this._xPos = xPos;
         this._yPos = yPos;
         this._upTime = upTime;
-        isValid = true;
-    }
-
-    /** Sets the basic properties of the attack, to be used when attack is used
-    *   xHitbox, yHitbox, damage, knockback, direction
-    *   
-    */
-    public Attack(int xHit, int yHit, int damage, float xKnockback, float yKnockback)
-    {
-        this._xHitBox = xHit;
-        this._yHitBox = yHit;
-        this._damage = damage;
-        this._direction = new Vector2(xKnockback, yKnockback);
-        isValid = true;
     }
 
     /*  Sets the values for the attack in the player controller
     *
     *
     */
-    public void setAttackValues(ref float xHit, ref float yHit, ref int damage, ref Vector2 direction)
+    public void setAttackValues(ref float xHit, ref float yHit, ref float damage, ref Vector2 direction, ref float xpos, ref float ypos, ref float endlag, ref float uptime)
     {   
         xHit = this._xHitBox;
         yHit = this._yHitBox;
         damage = this._damage;
         direction = this._direction;
+        xpos = this._xPos;
+        ypos = this._yPos;
+        endlag = this._endlag;
+        uptime = this._upTime;
+    }
+
+    public float getUptime()
+    {
+        return _upTime;
     }
 }

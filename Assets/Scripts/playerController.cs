@@ -8,6 +8,7 @@ public class playerController : MonoBehaviour
     Rigidbody2D body;
     private float horizontalInput;
     private Transform groundCheck;
+    
     [SerializeField] private LayerMask groundLayer;
 
     //Values for double jump
@@ -37,14 +38,30 @@ public class playerController : MonoBehaviour
     float attackTimer;
     bool attackTimerActive;
 
+    //Keeps track of if a new input has been given
+    bool newAttack = false;
+
     //Attack values
     float _xHitBox;
     float _yHitBox;
-    int _damage;
+    float _damage;
     Vector2 _direction;
-    float xPos;
-    float yPos;
-    float uptime;
+    float _xPos;
+    float _yPos;
+    float _endlag;
+    float _uptime;
+
+    //Animation Stuff
+    private Animator anim;
+    private bool grounded;
+
+    //Variable used to keep track of if player has entered hitbox
+    public float invinTimer;
+    public float maxInvinceTime = 1f;
+    public bool isInvincible = false;
+
+    //Health
+    public float health = 100f;
 
     // Start is called before the first frame update
     void Start()
@@ -53,6 +70,7 @@ public class playerController : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         groundCheck = transform.Find("GroundCheck");    //Ground check is a separate object, have to find the transform of that object
         jumpCount = numOfJumps;
+        anim = GetComponent<Animator>();
 
         //Find attack hitbox and object
         hitbox = GameObject.Find("Hitbox");
@@ -75,6 +93,9 @@ public class playerController : MonoBehaviour
         a4 = 0;
         a5 = 0;
         a6 = 0;
+
+        //Set invincible timer to 0 to start
+        invinTimer = 0;
     }
 
     // Update is called once per frame
@@ -84,14 +105,23 @@ public class playerController : MonoBehaviour
         horizontalInput = Input.GetAxis("Horizontal");
         body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
 
+        //Animation
+        anim.SetBool("run", horizontalInput != 0);
+
         //Perform jumps and attacks
-        Jump();
         attack();
+        handleFlip();
+        Jump();
+
+        
+        //Manage the invincibility timer, decrementing as needed and setting playerEntered Trigger
+        manageInvinTimer();
     }
 
     //Code to run when jumping
     private void Jump()
     {
+        grounded = false;
         //Jump functionality
         if(Input.GetButtonDown("Jump") && IsGrounded())
         {
@@ -115,26 +145,38 @@ public class playerController : MonoBehaviour
         if(IsGrounded())
         {
             jumpCount = numOfJumps;
+            anim.SetBool("grounded", true);
+        }
+        else if (!IsGrounded())
+        {
+            anim.SetBool("grounded", false);
         }
 
-        //For animations, may not be used
-        /*if(!IsGrounded())   //If we aren't on the ground, play jump animation. Works for falling too
-        {
-            anim.SetTrigger("jump");
-        }*/
+
     }
+
+    /*
+    //For Animation Purposes, stop jumping animation from playing if grounded
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Ground")
+            grounded = true;
+    }
+    */
+    
 
     void attack()
     {
         //If attack input is sent, start timer
-        if(Input.GetButtonDown("Fire1") || Input.GetButtonDown("Fire2"))
+        if((Input.GetButtonDown("Fire1") || Input.GetButtonDown("Fire2")) && _endlag <= 0)
         {
             attackTimerActive = true;
             attackTimer = attackTimeout;    //Resets timer even when input invalid attack, may need to fix
+            newAttack = true;
         }
 
         //If timer is active, get input and set corresponding variables to determine attack
-        if(attackTimerActive)
+        if(attackTimerActive && _endlag <= 0)
         {
             //Light attack
             if(Input.GetButtonDown("Fire1"))
@@ -166,13 +208,36 @@ public class playerController : MonoBehaviour
             a5 = 0;
             a6 = 0;
             hitboxCollider.size = new Vector2(0, 0);
+            print("Attacks reset");
         }
 
         //If the current attack exsists (Has been programmed), get it's values for attack
-        if(weapon.attacks[a1, a2, a3, a4, a5, a6] != null)
+        if(weapon.attacks[a1, a2, a3, a4, a5, a6] != null && newAttack && _endlag <= 0)
         {
-            weapon.attacks[a1, a2, a3, a4, a5, a6].setAttackValues(ref _xHitBox, ref _yHitBox, ref _damage, ref _direction);
+            weapon.attacks[a1, a2, a3, a4, a5, a6].setAttackValues(ref _xHitBox, ref _yHitBox, ref _damage, ref _direction, ref _xPos, ref _yPos, ref _endlag, ref _uptime);
+            newAttack = false;
+            //Add endlag to attack timer so we can continue combo even if endlag would push past attack timer
+            attackTimer += _endlag;
+            print(a1 + a2 + a3);
+        }
+
+        //Set hitbox size and position
+        if(_uptime > 0)
+        {
             hitboxCollider.size = new Vector2(_xHitBox, _yHitBox);
+            hitboxCollider.offset = new Vector2(_xPos, _yPos);
+            _uptime -= Time.deltaTime;
+        }
+        else if (_uptime <= 0)  //Reset size/position after attack ends
+        {
+            hitboxCollider.size = new Vector2(0, 0);
+            hitboxCollider.offset = new Vector2(0, 0);
+        }
+
+        //Endlag decreases once set
+        if(_endlag > 0)
+        {
+            _endlag -= Time.deltaTime;
         }
     }
 
@@ -200,13 +265,50 @@ public class playerController : MonoBehaviour
                 a6 = attackValue;
                 break;
         }
-            
 
+    }
+
+    //Flips player when moving to left or right
+    private void handleFlip()
+    {
+        if(horizontalInput < -0.01f) //Flip the player if moving to the left
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+        else if(horizontalInput > 0.01f) //Flip the player if moving to the right
+        {
+            transform.localScale = Vector3.one;
+        }
+    }
+
+    //Responsible for dealing damage
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other != null)
+        {
+            if(other.gameObject.tag == "Enemy") //Deal damage
+            {
+                print("Dealt damage");
+            }
+        }
+    }
+
+    void manageInvinTimer()
+    {
+        if(invinTimer > 0)  //If invincible, decrease timer
+        {
+            invinTimer -= Time.deltaTime;
+        }
+        else if (invinTimer <= 0)   //If not invincible, set bool
+        {
+            isInvincible = false;
+        }
     }
 
     //Better way to tell if we're grounded
     private bool IsGrounded()
     {
+
         //Creates invisible circle at player feet, when collding with ground will return true
         return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
     }
