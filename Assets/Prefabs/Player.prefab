@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 2475127548279349920}
   - component: {fileID: 2475127548279349921}
   - component: {fileID: 2475127548279349926}
+  - component: {fileID: 936146612}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -130,7 +131,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -138125534, guid: 06102bb5a4d76af4f9c980a693912418, type: 3}
+  m_Sprite: {fileID: 21300088, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -140,7 +141,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!61 &2475127548279349921
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -154,18 +155,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.1}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    pivot: {x: 0.5, y: 0.375}
+    oldSize: {x: 3.125, y: 1.71875}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1, y: 1.35}
   m_EdgeRadius: 0
 --- !u!114 &2475127548279349926
 MonoBehaviour:
@@ -184,6 +185,30 @@ MonoBehaviour:
     m_Bits: 64
   speed: 10
   jumpForce: 7
+  invinTimer: 0
+  maxInvinceTime: 1
+  isInvincible: 0
+  health: 100
+--- !u!95 &936146612
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2475127548279350109}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 95212d25204df8941823735f0d829fec, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &2475127549084290804
 GameObject:
   m_ObjectHideFlags: 0
@@ -194,7 +219,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2475127549084290805}
   - component: {fileID: 2475127549084290810}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: Hitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
