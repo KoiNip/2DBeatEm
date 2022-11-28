@@ -16,6 +16,9 @@ public class Enemy1 : Entity
     [SerializeField] private D_ChargeState chargeStateData;
     [SerializeField] private D_LookForPlayer lookForPlayerStateDate;
 
+    private bool enemyEnteredTrigger = false;
+    BoxCollider2D playerAttackCollider;
+
     public override void Start()
     {
         base.Start();

@@ -8,6 +8,7 @@ public class playerController : MonoBehaviour
     Rigidbody2D body;
     private float horizontalInput;
     private Transform groundCheck;
+    
     [SerializeField] private LayerMask groundLayer;
 
     //Values for double jump
@@ -50,6 +51,18 @@ public class playerController : MonoBehaviour
     float _endlag;
     float _uptime;
 
+    //Animation Stuff
+    private Animator anim;
+    private bool grounded;
+
+    //Variable used to keep track of if player has entered hitbox
+    public float invinTimer;
+    public float maxInvinceTime = 1f;
+    public bool isInvincible = false;
+
+    //Health
+    public float health = 100f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -57,6 +70,7 @@ public class playerController : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         groundCheck = transform.Find("GroundCheck");    //Ground check is a separate object, have to find the transform of that object
         jumpCount = numOfJumps;
+        anim = GetComponent<Animator>();
 
         //Find attack hitbox and object
         hitbox = GameObject.Find("Hitbox");
@@ -79,6 +93,9 @@ public class playerController : MonoBehaviour
         a4 = 0;
         a5 = 0;
         a6 = 0;
+
+        //Set invincible timer to 0 to start
+        invinTimer = 0;
     }
 
     // Update is called once per frame
@@ -88,15 +105,23 @@ public class playerController : MonoBehaviour
         horizontalInput = Input.GetAxis("Horizontal");
         body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
 
+        //Animation
+        anim.SetBool("run", horizontalInput != 0);
+
         //Perform jumps and attacks
         attack();
         handleFlip();
         Jump();
+
+        
+        //Manage the invincibility timer, decrementing as needed and setting playerEntered Trigger
+        manageInvinTimer();
     }
 
     //Code to run when jumping
     private void Jump()
     {
+        grounded = false;
         //Jump functionality
         if(Input.GetButtonDown("Jump") && IsGrounded())
         {
@@ -120,14 +145,25 @@ public class playerController : MonoBehaviour
         if(IsGrounded())
         {
             jumpCount = numOfJumps;
+            anim.SetBool("grounded", true);
+        }
+        else if (!IsGrounded())
+        {
+            anim.SetBool("grounded", false);
         }
 
-        //For animations, may not be used
-        /*if(!IsGrounded())   //If we aren't on the ground, play jump animation. Works for falling too
-        {
-            anim.SetTrigger("jump");
-        }*/
+
     }
+
+    /*
+    //For Animation Purposes, stop jumping animation from playing if grounded
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Ground")
+            grounded = true;
+    }
+    */
+    
 
     void attack()
     {
@@ -195,6 +231,7 @@ public class playerController : MonoBehaviour
         else if (_uptime <= 0)  //Reset size/position after attack ends
         {
             hitboxCollider.size = new Vector2(0, 0);
+            hitboxCollider.offset = new Vector2(0, 0);
         }
 
         //Endlag decreases once set
@@ -228,7 +265,6 @@ public class playerController : MonoBehaviour
                 a6 = attackValue;
                 break;
         }
-            
 
     }
 
@@ -245,9 +281,34 @@ public class playerController : MonoBehaviour
         }
     }
 
+    //Responsible for dealing damage
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other != null)
+        {
+            if(other.gameObject.tag == "Enemy") //Deal damage
+            {
+                print("Dealt damage");
+            }
+        }
+    }
+
+    void manageInvinTimer()
+    {
+        if(invinTimer > 0)  //If invincible, decrease timer
+        {
+            invinTimer -= Time.deltaTime;
+        }
+        else if (invinTimer <= 0)   //If not invincible, set bool
+        {
+            isInvincible = false;
+        }
+    }
+
     //Better way to tell if we're grounded
     private bool IsGrounded()
     {
+
         //Creates invisible circle at player feet, when collding with ground will return true
         return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
     }
