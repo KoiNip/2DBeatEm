@@ -53,7 +53,7 @@ public class playerController : MonoBehaviour
 
     //Animation Stuff
     private Animator anim;
-    private bool grounded;
+    int coinflip;
 
     //Variable used to keep track of if player has entered hitbox
     public float invinTimer;
@@ -121,7 +121,6 @@ public class playerController : MonoBehaviour
     //Code to run when jumping
     private void Jump()
     {
-        grounded = false;
         //Jump functionality
         if(Input.GetButtonDown("Jump") && IsGrounded())
         {
@@ -155,20 +154,10 @@ public class playerController : MonoBehaviour
 
     }
 
-    /*
-    //For Animation Purposes, stop jumping animation from playing if grounded
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Ground")
-            grounded = true;
-    }
-    */
-    
-
     void attack()
     {
         //If attack input is sent, start timer
-        if((Input.GetButtonDown("Fire1") || Input.GetButtonDown("Fire2")) && _endlag <= 0)
+        if ((Input.GetButtonDown("Fire1") || Input.GetButtonDown("Fire2")) && _endlag <= 0)
         {
             attackTimerActive = true;
             attackTimer = attackTimeout;    //Resets timer even when input invalid attack, may need to fix
@@ -183,16 +172,25 @@ public class playerController : MonoBehaviour
             {
                 setAttackIndecies(1);
                 attackIndex++;
+                coinflip = Random.Range(1, 100);
+                if (attackIndex <= 3)
+                    if (coinflip > 50)
+                        anim.Play("LightAttack1");
+                    else
+                        anim.Play("LightAttack2");
             }
             //Heavy attack
-            if(Input.GetButtonDown("Fire2"))
+            if (Input.GetButtonDown("Fire2"))
             {
                 setAttackIndecies(2);
                 attackIndex++;
+                if (attackIndex <= 3)
+                    anim.Play("HeavyAttack1");
             }
 
             //Reduce timer every tick it is active
             attackTimer -= Time.deltaTime;
+            
         }
 
         //If timer ends, or we attack 6 times, reset moves back to beginning
@@ -209,6 +207,7 @@ public class playerController : MonoBehaviour
             a6 = 0;
             hitboxCollider.size = new Vector2(0, 0);
             print("Attacks reset");
+            anim.SetBool("LightAttack1", false);
         }
 
         //If the current attack exsists (Has been programmed), get it's values for attack
@@ -250,7 +249,7 @@ public class playerController : MonoBehaviour
                 a1 = attackValue;
                 break;
             case 1:
-                a2 = attackValue;
+                a2 = attackValue; 
                 break;
             case 2:
                 a3 = attackValue;
@@ -265,7 +264,6 @@ public class playerController : MonoBehaviour
                 a6 = attackValue;
                 break;
         }
-
     }
 
     //Flips player when moving to left or right
@@ -308,7 +306,6 @@ public class playerController : MonoBehaviour
     //Better way to tell if we're grounded
     private bool IsGrounded()
     {
-
         //Creates invisible circle at player feet, when collding with ground will return true
         return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
     }
