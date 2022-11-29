@@ -53,7 +53,6 @@ public class playerController : MonoBehaviour
 
     //Animation Stuff
     private Animator anim;
-    private bool grounded;
 
     //Variable used to keep track of if player has entered hitbox
     public float invinTimer;
@@ -121,7 +120,6 @@ public class playerController : MonoBehaviour
     //Code to run when jumping
     private void Jump()
     {
-        grounded = false;
         //Jump functionality
         if(Input.GetButtonDown("Jump") && IsGrounded())
         {

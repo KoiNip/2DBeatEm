@@ -30,7 +30,7 @@ public class E1_MoveState : MoveState
 
         if(isDetectingWall || !isDetectingLedge)
         {
-            enemy.idleState.SetFlipAfterIdol(true);
+            enemy.idleState.SetFlipAfterIdle(true);
             stateMachine.ChangeState(enemy.idleState);
         }
 

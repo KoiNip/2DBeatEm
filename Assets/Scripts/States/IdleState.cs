@@ -54,7 +54,7 @@ public class IdleState : State
         base.PhysicsUpdate();
     }
 
-    public void SetFlipAfterIdol(bool flip)
+    public void SetFlipAfterIdle(bool flip)
     {
         flipAfterIdle = flip;
     }
