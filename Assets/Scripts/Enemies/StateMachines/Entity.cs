@@ -12,10 +12,13 @@ public class Entity : MonoBehaviour
     public Rigidbody2D rb {get; private set; }
     public Animator anim {get; private set; }
     public GameObject aliveGO {get; private set; }
+	public AnimationToStatemachine atsm { get; private set; }
+    public int lastDamageDirection { get; private set; }
 
     [SerializeField] private Transform wallCheck;
     [SerializeField] private Transform ledgeCheck;
     [SerializeField] private Transform playerCheck;
+	[SerializeField] private Transform groundCheck;
 
     private Vector2 velocityWorkspace;
 
@@ -26,6 +29,7 @@ public class Entity : MonoBehaviour
         aliveGO = transform.Find("Alive").gameObject;
         rb = aliveGO.GetComponent<Rigidbody2D>();
         anim = aliveGO.GetComponent<Animator>();
+		atsm = aliveGO.GetComponent<AnimationToStatemachine>();
 
         stateMachine = new FiniteStateMachine();
     }
