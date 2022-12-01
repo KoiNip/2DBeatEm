@@ -53,7 +53,15 @@ public class playerController : MonoBehaviour
 
     //Animation Stuff
     private Animator anim;
-    int coinflip;
+    int attackRNG;
+
+    //Sound Stuff
+    private AudioSource audioSource;
+   // public AudioClip lightSwing1;
+    //public AudioClip lightSwing2;
+    //public AudioClip lightSwing3;
+    //public AudioClip heavySwing1;
+    //public AudioClip heavySwing2;
 
     //Variable used to keep track of if player has entered hitbox
     public float invinTimer;
@@ -70,7 +78,10 @@ public class playerController : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         groundCheck = transform.Find("GroundCheck");    //Ground check is a separate object, have to find the transform of that object
         jumpCount = numOfJumps;
+
+        //Animation and Sound
         anim = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
 
         //Find attack hitbox and object
         hitbox = GameObject.Find("Hitbox");
@@ -172,20 +183,39 @@ public class playerController : MonoBehaviour
             {
                 setAttackIndecies(1);
                 attackIndex++;
-                coinflip = Random.Range(1, 100);
+                attackRNG = Random.Range(1, 4);
                 if (attackIndex <= 3)
-                    if (coinflip > 50)
+                {
+                    if (attackRNG == 1)
+                    {
                         anim.Play("LightAttack1");
-                    else
+
+                    }
+                    else if (attackRNG == 2)
+                    {
                         anim.Play("LightAttack2");
+                    }
+                    else if (attackRNG == 3)
+                    {
+                        anim.Play("LightAttack3");
+                    }
+                        
+                }          
             }
             //Heavy attack
             if (Input.GetButtonDown("Fire2"))
             {
                 setAttackIndecies(2);
                 attackIndex++;
+
+                attackRNG = Random.Range(1, 3);
                 if (attackIndex <= 3)
-                    anim.Play("HeavyAttack1");
+                {
+                    if (attackRNG == 1)
+                        anim.Play("HeavyAttack1");
+                    else if (attackRNG == 2)
+                        anim.Play("HeavyAttack2");
+                }  
             }
 
             //Reduce timer every tick it is active
@@ -240,6 +270,11 @@ public class playerController : MonoBehaviour
         }
     }
 
+    public void playSwordSwing(AudioClip clip)
+    {
+        audioSource.clip = clip;
+        audioSource.Play();
+    }
     //Used to set the attack indecies, sets what attack is being used
     private void setAttackIndecies(int attackValue)
     {
