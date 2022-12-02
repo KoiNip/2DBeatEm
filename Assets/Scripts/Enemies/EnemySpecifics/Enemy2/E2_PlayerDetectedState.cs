@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class E2_PlayerDetectedState : PlayerDectectedState
+public class E2_PlayerDetectedState : PlayerDetectedState
 {
 	private Enemy2 enemy;
 

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class E1_PlayerDetectedState : PlayerDectectedState
+public class E1_PlayerDetectedState : PlayerDetectedState
 {
    private Enemy1 enemy;
 
@@ -12,34 +12,31 @@ public class E1_PlayerDetectedState : PlayerDectectedState
    }
 
    public override void Enter()
-   {
-      base.Enter();
-   }
-   public override void Exit()
-   {
-      base.Exit();
-   }
-   public override void LogicUpdate()
-   {
-      base.LogicUpdate();
+    {
+        base.Enter();
+    }
+    public override void Exit()
+    {
+        base.Exit();
+    }
+    public override void LogicUpdate()
+    {
+        base.LogicUpdate();
 
-      if(peformLongRangeAction)
-      {
-         stateMachine.ChangeState(enemy.chargeState);
-      }
-      else if(!isPlayerInMaxAgroRange)
-      {
-         stateMachine.ChangeState(enemy.lookForPlayerState);
-      }
+        if (peformLongRangeAction)
+        {            
+            stateMachine.ChangeState(enemy.chargeState);
+        }
+        else if (!isPlayerInMaxAgroRange)
+        {
+            stateMachine.ChangeState(enemy.lookForPlayerState);
+        }
 
-      if(!isPlayerInMaxAgroRange)
-      {
-         enemy.idleState.SetFlipAfterIdle(false);
-         stateMachine.ChangeState(enemy.idleState);
-      }
-   }
-   public override void PhysicsUpdate()
-   {
-      base.PhysicsUpdate();
-   }
+        //TODO: Transition to attack state
+    }
+
+    public override void PhysicsUpdate()
+    {
+        base.PhysicsUpdate();
+    }
 }

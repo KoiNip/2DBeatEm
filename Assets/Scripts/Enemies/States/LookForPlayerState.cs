@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LookforPlayerState : State
+public class LookForPlayerState : State
 {
     protected D_LookForPlayer stateData;
 
@@ -13,9 +13,9 @@ public class LookforPlayerState : State
 
     protected float lastTurnTime;
 
-    protected int amountofTurnsDone;
+    protected int amountOfTurnsDone;
 
-    public LookforPlayerState(Entity entity, FiniteStateMachine stateMachine, string animBoolName, D_LookForPlayer stateData): base(entity, stateMachine, animBoolName)
+    public LookForPlayerState(Entity etity, FiniteStateMachine stateMachine, string animBoolName, D_LookForPlayer stateData) : base(etity, stateMachine, animBoolName)
     {
         this.stateData = stateData;
     }
@@ -24,8 +24,9 @@ public class LookforPlayerState : State
     {
         base.DoChecks();
 
-        isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange(); 
+        isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange();
     }
+
     public override void Enter()
     {
         base.Enter();
@@ -34,33 +35,35 @@ public class LookforPlayerState : State
         isAllTurnsTimeDone = false;
 
         lastTurnTime = startTime;
-        amountofTurnsDone = 0;
-        
+        amountOfTurnsDone = 0;
+
         entity.SetVelocity(0f);
     }
+
     public override void Exit()
     {
         base.Exit();
     }
+
     public override void LogicUpdate()
     {
         base.LogicUpdate();
 
-        if(turnImmediately)
+        if (turnImmediately)
         {
             entity.Flip();
             lastTurnTime = Time.time;
-            amountofTurnsDone++;
+            amountOfTurnsDone++;
             turnImmediately = false;
         }
         else if(Time.time >= lastTurnTime + stateData.timeBetweenTurns && !isAllTurnsDone)
         {
             entity.Flip();
             lastTurnTime = Time.time;
-            amountofTurnsDone++;
+            amountOfTurnsDone++;
         }
 
-        if(amountofTurnsDone >= stateData.amountofTurns)
+        if(amountOfTurnsDone >= stateData.amountofTurns)
         {
             isAllTurnsDone = true;
         }
@@ -70,6 +73,7 @@ public class LookforPlayerState : State
             isAllTurnsTimeDone = true;
         }
     }
+
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();

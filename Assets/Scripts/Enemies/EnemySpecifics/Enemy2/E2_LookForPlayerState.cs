@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class E2_LookForPlayer : LookforPlayerState
+public class E2_LookForPlayer : LookForPlayerState
 {
     private Enemy2 enemy;
 

@@ -42,15 +42,6 @@ public class Enemy2 : Entity
 		player = GameObject.FindWithTag("Player");
     }
 
-	void update()
-    {
-		if(player.GetComponent<playerController>().playerEnteredTrigger)
-		{
-			//Do player damage here
-			print("It worked");
-		}
-	}
-
 	public void takeDamage(float damage, Vector2 knockback)
 	{
 		body.velocity = knockback;
