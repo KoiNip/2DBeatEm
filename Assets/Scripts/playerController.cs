@@ -183,7 +183,7 @@ public class playerController : MonoBehaviour
             {
                 setAttackIndecies(1);
                 attackIndex++;
-                attackRNG = Random.Range(1, 4);
+                attackRNG = Random.Range(1, 5);
                 if (attackIndex <= 3)
                 {
                     if (attackRNG == 1)
@@ -198,6 +198,10 @@ public class playerController : MonoBehaviour
                     else if (attackRNG == 3)
                     {
                         anim.Play("LightAttack3");
+                    }
+                    else
+                    {
+                        anim.Play("LightAttack4");
                     }
                         
                 }          

@@ -82,9 +82,9 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.083333336
-    functionName: 
+    functionName: playSwordSwing
     data: 
-    objectReferenceParameter: {fileID: 0}
+    objectReferenceParameter: {fileID: 8300000, guid: 0c85752f93cac904a8552075e67e98d0, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0

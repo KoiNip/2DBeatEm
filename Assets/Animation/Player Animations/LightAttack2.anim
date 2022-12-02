@@ -80,4 +80,11 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0.083333336
+    functionName: playSwordSwing
+    data: 
+    objectReferenceParameter: {fileID: 8300000, guid: 0e69a9e31357ea64ba6ed14f373cd649, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
