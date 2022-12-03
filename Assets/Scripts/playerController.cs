@@ -339,6 +339,7 @@ public class playerController : MonoBehaviour
     {
         if(other != null)
         {
+            //Deal damage to enemy
             if(other.gameObject.tag == "Enemy") //Deal damage
             {
                 Rigidbody2D otherBody = other.gameObject.GetComponentInChildren<Rigidbody2D>();   //Find Rigid body of colliding object
@@ -356,6 +357,12 @@ public class playerController : MonoBehaviour
                 {
                     Destroy(other.gameObject);
                 }
+            }
+
+            //Die to death pit
+            if(other.gameObject.tag == "DeathPit")
+            {
+                health = 0;
             }
         }
     }
