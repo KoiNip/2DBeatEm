@@ -8,8 +8,6 @@ public class EnemyHitboxScripts : MonoBehaviour
     public float damage = 30f; //Stores damage dealt
     Rigidbody2D body;   //Stores enemy rigid body for knockback
     private GameObject player;  //Stores player object to be damaged
-    public LayerMask playerDamageLayer;
-    public LayerMask playerLayer;
     // Start is called before the first frame update
     void Start()
     {
