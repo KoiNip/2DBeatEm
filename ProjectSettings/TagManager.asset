@@ -8,6 +8,7 @@ TagManager:
   - EnemyDealDamage
   - Ground
   - DeathPit
+  - Arrow
   layers:
   - Default
   - TransparentFX
