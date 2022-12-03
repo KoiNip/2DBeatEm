@@ -22,7 +22,7 @@ public class EnemyHitboxScripts : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void takeDamage(float damage, Vector2 knockback)

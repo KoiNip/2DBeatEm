@@ -50,6 +50,7 @@ public class playerController : MonoBehaviour
     float _yPos;
     float _endlag;
     float _uptime;
+    bool isFinal;
 
     //Animation Stuff
     private Animator anim;
@@ -70,6 +71,9 @@ public class playerController : MonoBehaviour
 
     //Health
     public float health = 100f;
+
+    //Keeps track of the direction the player is facing, used for dealing knockback to enemy
+    bool facingRight;
 
     // Start is called before the first frame update
     void Start()
@@ -107,6 +111,9 @@ public class playerController : MonoBehaviour
 
         //Set invincible timer to 0 to start
         invinTimer = 0;
+
+        //We face right by default
+        facingRight = true;
     }
 
     // Update is called once per frame
@@ -127,6 +134,12 @@ public class playerController : MonoBehaviour
         
         //Manage the invincibility timer, decrementing as needed and setting playerEntered Trigger
         manageInvinTimer();
+
+        //Call game over if player dies
+        if(health <= 0)
+        {
+            die();
+        }
     }
 
     //Code to run when jumping
@@ -228,7 +241,7 @@ public class playerController : MonoBehaviour
         }
 
         //If timer ends, or we attack 6 times, reset moves back to beginning
-        if(attackTimer <= 0.0f || attackIndex >= 6)
+        if(attackTimer <= 0.0f || attackIndex >= 6 || isFinal)
         {
             attackTimer = attackTimeout;
             attackTimerActive = false;
@@ -242,12 +255,13 @@ public class playerController : MonoBehaviour
             hitboxCollider.size = new Vector2(0, 0);
             print("Attacks reset");
             anim.SetBool("LightAttack1", false);
+            isFinal = false;
         }
 
         //If the current attack exsists (Has been programmed), get it's values for attack
         if(weapon.attacks[a1, a2, a3, a4, a5, a6] != null && newAttack && _endlag <= 0)
         {
-            weapon.attacks[a1, a2, a3, a4, a5, a6].setAttackValues(ref _xHitBox, ref _yHitBox, ref _damage, ref _direction, ref _xPos, ref _yPos, ref _endlag, ref _uptime);
+            weapon.attacks[a1, a2, a3, a4, a5, a6].setAttackValues(ref _xHitBox, ref _yHitBox, ref _damage, ref _direction, ref _xPos, ref _yPos, ref _endlag, ref _uptime, ref isFinal);
             newAttack = false;
             //Add endlag to attack timer so we can continue combo even if endlag would push past attack timer
             attackTimer += _endlag;
@@ -311,10 +325,12 @@ public class playerController : MonoBehaviour
         if(horizontalInput < -0.01f) //Flip the player if moving to the left
         {
             transform.localScale = new Vector3(-1, 1, 1);
+            facingRight = false;
         }
         else if(horizontalInput > 0.01f) //Flip the player if moving to the right
         {
             transform.localScale = Vector3.one;
+            facingRight = true;
         }
     }
 
@@ -325,7 +341,21 @@ public class playerController : MonoBehaviour
         {
             if(other.gameObject.tag == "Enemy") //Deal damage
             {
-                print("Dealt damage");
+                Rigidbody2D otherBody = other.gameObject.GetComponentInChildren<Rigidbody2D>();   //Find Rigid body of colliding object
+                other.gameObject.GetComponentInChildren<EnemyHitboxScripts>().health -= _damage;
+
+                //If we are facing left, change x knockback to go to the left
+                if(!facingRight)
+                {
+                    _direction = new Vector2(-1 * _direction.x, _direction.y);
+                }
+                otherBody.velocity = _direction;
+                print(other.gameObject.GetComponentInChildren<EnemyHitboxScripts>().health);
+
+                if(other.gameObject.GetComponentInChildren<EnemyHitboxScripts>().health <= 0)
+                {
+                    Destroy(other.gameObject);
+                }
             }
         }
     }
@@ -340,6 +370,12 @@ public class playerController : MonoBehaviour
         {
             isInvincible = false;
         }
+    }
+
+    //Called when the player dies
+    void die()
+    {
+        print("Player died");
     }
 
     //Better way to tell if we're grounded
