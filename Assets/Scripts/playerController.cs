@@ -127,6 +127,24 @@ public class playerController : MonoBehaviour
         anim.SetBool("run", horizontalInput != 0);
 
         //Perform jumps and attacks
+
+        if (!pauseMenu.isGamePause)
+        {
+            attack();
+            handleFlip();
+            Jump();
+
+
+            //Manage the invincibility timer, decrementing as needed and setting playerEntered Trigger
+            manageInvinTimer();
+
+            //Call game over if player dies
+            if (health <= 0)
+            {
+                die();
+            }
+        }
+        /*
         attack();
         handleFlip();
         Jump();
@@ -140,6 +158,7 @@ public class playerController : MonoBehaviour
         {
             die();
         }
+        */
     }
 
     //Code to run when jumping
