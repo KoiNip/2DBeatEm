@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Enemy
   - EnemyDealDamage
+  - Ground
+  - DeathPit
+  - Arrow
   layers:
   - Default
   - TransparentFX
@@ -48,4 +51,7 @@ TagManager:
     locked: 0
   - name: Platform
     uniqueID: 1111348845
+    locked: 0
+  - name: Front Platform
+    uniqueID: 688813281
     locked: 0

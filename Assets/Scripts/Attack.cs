@@ -12,9 +12,10 @@ public class Attack
     float _xPos;
     float _yPos;
     float _upTime;
+    bool isFinal;
 
 
-    public Attack(float xHit, float yHit, float damage, float xKnockback, float yKnockback, float xPos, float yPos, float endlag, float upTime)
+    public Attack(float xHit, float yHit, float damage, float xKnockback, float yKnockback, float xPos, float yPos, float endlag, float upTime, bool isFinal)
     {
         this._xHitBox = xHit;
         this._yHitBox = yHit;
@@ -24,13 +25,14 @@ public class Attack
         this._xPos = xPos;
         this._yPos = yPos;
         this._upTime = upTime;
+        this.isFinal = isFinal;
     }
 
     /*  Sets the values for the attack in the player controller
     *
     *
     */
-    public void setAttackValues(ref float xHit, ref float yHit, ref float damage, ref Vector2 direction, ref float xpos, ref float ypos, ref float endlag, ref float uptime)
+    public void setAttackValues(ref float xHit, ref float yHit, ref float damage, ref Vector2 direction, ref float xpos, ref float ypos, ref float endlag, ref float uptime, ref bool isFinal)
     {   
         xHit = this._xHitBox;
         yHit = this._yHitBox;
@@ -40,6 +42,7 @@ public class Attack
         ypos = this._yPos;
         endlag = this._endlag;
         uptime = this._upTime;
+        isFinal = this.isFinal;
     }
 
     public float getUptime()
