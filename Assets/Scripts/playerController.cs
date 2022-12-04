@@ -388,11 +388,13 @@ public class playerController : MonoBehaviour
             isInvincible = false;
         }
     }
+    public loseMenu deathMenu;
 
     //Called when the player dies
     void die()
     {
         anim.Play("Death");
+        deathMenu.setMenu();
         print("Player died");
     }
 

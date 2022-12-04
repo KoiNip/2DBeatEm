@@ -5,6 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class loseMenu : MonoBehaviour
 {
+    public GameObject deathMenu;
+
+    public void setMenu()
+    {
+        deathMenu.SetActive(true);
+    }
     public void retryLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
