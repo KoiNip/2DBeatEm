@@ -58,11 +58,6 @@ public class playerController : MonoBehaviour
 
     //Sound Stuff
     private AudioSource audioSource;
-   // public AudioClip lightSwing1;
-    //public AudioClip lightSwing2;
-    //public AudioClip lightSwing3;
-    //public AudioClip heavySwing1;
-    //public AudioClip heavySwing2;
 
     //Variable used to keep track of if player has entered hitbox
     public float invinTimer;
@@ -127,13 +122,12 @@ public class playerController : MonoBehaviour
         anim.SetBool("run", horizontalInput != 0);
 
         //Perform jumps and attacks
-
+        //Pause Menu Functions
         if (!pauseMenu.isGamePause)
         {
             attack();
             handleFlip();
             Jump();
-
 
             //Manage the invincibility timer, decrementing as needed and setting playerEntered Trigger
             manageInvinTimer();
@@ -168,8 +162,6 @@ public class playerController : MonoBehaviour
         if(Input.GetButtonDown("Jump") && IsGrounded())
         {
             body.velocity = new Vector2(body.velocity.x, jumpForce);
-            //Sets animator trigger to jump so it knows to play jumping animation
-            //jumpAnimDisable = false;
         }
         //Use extra jump
         else if(Input.GetButtonDown("Jump") && jumpCount > 0)
@@ -194,8 +186,7 @@ public class playerController : MonoBehaviour
             anim.SetBool("grounded", false);
         }
 
-
-    }
+    } 
 
     void attack()
     {
@@ -401,6 +392,7 @@ public class playerController : MonoBehaviour
     //Called when the player dies
     void die()
     {
+        anim.Play("Death");
         print("Player died");
     }
 
