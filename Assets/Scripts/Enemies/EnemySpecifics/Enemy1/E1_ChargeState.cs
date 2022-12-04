@@ -36,17 +36,24 @@ public class E1_ChargeState : ChargeState
     {
         base.PhysicsUpdate();
 
-        if(!isDetectingLedge || isDetectingWall)
+        if(performCloseRangeAction)
+            {
+                stateMachine.ChangeState(enemy.lookForPlayerState);
+            }
+
+        else if(!isDetectingLedge || isDetectingWall)
         {
             stateMachine.ChangeState(enemy.lookForPlayerState);
         }
         else if (isChargeTimeOver)
         {
-            //TODO: Transition to attack state
-            
-            if (isPlayerInMinAgroRange)
+            if(isPlayerInMinAgroRange)
             {
                 stateMachine.ChangeState(enemy.playerDetectedState);
+            }
+            else
+            {
+                stateMachine.ChangeState(enemy.lookForPlayerState);
             }
         }
     }
