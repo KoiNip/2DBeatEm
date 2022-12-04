@@ -70,6 +70,9 @@ public class playerController : MonoBehaviour
     //Keeps track of the direction the player is facing, used for dealing knockback to enemy
     bool facingRight;
 
+    //Keeps track of if the player is dead
+    bool isDead;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -109,28 +112,33 @@ public class playerController : MonoBehaviour
 
         //We face right by default
         facingRight = true;
+
+        //Sets is dead, we are not dead by default
+        isDead = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Get input and apply corresponding velocity to player
-        horizontalInput = Input.GetAxis("Horizontal");
-        body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
-
-        //Animation
-        anim.SetBool("run", horizontalInput != 0);
-
         //Perform jumps and attacks
         //Pause Menu Functions
         if (!pauseMenu.isGamePause)
         {
-            attack();
-            handleFlip();
-            Jump();
+            if(!isDead)
+            {
+                //Get input and apply corresponding velocity to player
+                horizontalInput = Input.GetAxis("Horizontal");
+                body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
 
-            //Manage the invincibility timer, decrementing as needed and setting playerEntered Trigger
-            manageInvinTimer();
+                //Animation
+                anim.SetBool("run", horizontalInput != 0);
+                attack();
+                handleFlip();
+                Jump();
+
+                //Manage the invincibility timer, decrementing as needed and setting playerEntered Trigger
+                manageInvinTimer();
+            }
 
             //Call game over if player dies
             if (health <= 0)
@@ -394,6 +402,7 @@ public class playerController : MonoBehaviour
     {
         anim.Play("Death");
         print("Player died");
+        isDead = true;
     }
 
     //Better way to tell if we're grounded
