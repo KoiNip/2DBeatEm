@@ -382,7 +382,6 @@ public class playerController : MonoBehaviour
             isInvincible = false;
         }
     }
-    public loseMenu deathMenu;
 
     //Called when the player dies
     void die()
