@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class playerController : MonoBehaviour
 {
@@ -69,6 +71,7 @@ public class playerController : MonoBehaviour
 
     //Keeps track of the direction the player is facing, used for dealing knockback to enemy
     bool facingRight;
+
 
     // Start is called before the first frame update
     void Start()
@@ -388,14 +391,21 @@ public class playerController : MonoBehaviour
             isInvincible = false;
         }
     }
-    public loseMenu deathMenu;
 
+
+    public float delay = 1;
     //Called when the player dies
     void die()
     {
         anim.Play("Death");
-        deathMenu.setMenu();
-        print("Player died");
+        StartCoroutine(loadDeathScreen(delay));
+        //print("Player died");
+    }
+
+    IEnumerator loadDeathScreen(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        SceneManager.LoadScene("deathScene");
     }
 
     //Better way to tell if we're grounded
