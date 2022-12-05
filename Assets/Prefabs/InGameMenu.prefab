@@ -2620,7 +2620,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4050420d506146c4894792a9ae387741, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathMenu: {fileID: 8345508344148988329}
+  deathUI: {fileID: 8345508344148988329}
 --- !u!1 &8742773720748591996
 GameObject:
   m_ObjectHideFlags: 0

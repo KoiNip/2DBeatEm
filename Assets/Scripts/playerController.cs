@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class playerController : MonoBehaviour
 {
@@ -70,6 +72,12 @@ public class playerController : MonoBehaviour
     //Keeps track of the direction the player is facing, used for dealing knockback to enemy
     bool facingRight;
 
+    //Keeps track of if the player is dead
+    bool isDead;
+
+    //Counts down until we call the game over screen
+    float delay = 1.7f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -109,50 +117,41 @@ public class playerController : MonoBehaviour
 
         //We face right by default
         facingRight = true;
+
+        //Sets is dead, we are not dead by default
+        isDead = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Get input and apply corresponding velocity to player
-        horizontalInput = Input.GetAxis("Horizontal");
-        body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
-
-        //Animation
-        anim.SetBool("run", horizontalInput != 0);
-
         //Perform jumps and attacks
         //Pause Menu Functions
         if (!pauseMenu.isGamePause)
         {
-            attack();
-            handleFlip();
-            Jump();
+            if(!isDead)
+            {
+                //Get input and apply corresponding velocity to player
+                horizontalInput = Input.GetAxis("Horizontal");
+                body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
 
-            //Manage the invincibility timer, decrementing as needed and setting playerEntered Trigger
-            manageInvinTimer();
+                //Animation
+                anim.SetBool("run", horizontalInput != 0);
+                attack();
+                handleFlip();
+                Jump();
 
+                //Manage the invincibility timer, decrementing as needed and setting playerEntered Trigger
+                manageInvinTimer();
+            }
+            
             //Call game over if player dies
             if (health <= 0)
             {
                 die();
             }
         }
-        /*
-        attack();
-        handleFlip();
-        Jump();
 
-        
-        //Manage the invincibility timer, decrementing as needed and setting playerEntered Trigger
-        manageInvinTimer();
-
-        //Call game over if player dies
-        if(health <= 0)
-        {
-            die();
-        }
-        */
     }
 
     //Code to run when jumping
@@ -363,7 +362,7 @@ public class playerController : MonoBehaviour
                 otherBody.velocity = _direction;
                 print(other.gameObject.GetComponentInChildren<EnemyHitboxScripts>().health);
 
-                if(other.gameObject.GetComponentInChildren<EnemyHitboxScripts>().health <= 0)
+                if (other.gameObject.GetComponentInChildren<EnemyHitboxScripts>().health <= 0)
                 {
                     Destroy(other.gameObject);
                 }
@@ -388,14 +387,23 @@ public class playerController : MonoBehaviour
             isInvincible = false;
         }
     }
-    public loseMenu deathMenu;
 
     //Called when the player dies
     void die()
     {
         anim.Play("Death");
-        deathMenu.setMenu();
-        print("Player died");
+        delay -= Time.deltaTime;
+        print(delay);
+        if(delay <= 0)
+        {
+            loadDeathScene();
+        }
+        isDead = true;
+    }
+
+    void loadDeathScene()
+    {
+        SceneManager.LoadScene("deathScene");
     }
 
     //Better way to tell if we're grounded
