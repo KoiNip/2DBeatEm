@@ -369,7 +369,7 @@ public class playerController : MonoBehaviour
         if(other != null)
         {
             //Deal damage to enemy
-            if(other.gameObject.tag == "Enemy") //Deal damage
+            if(other.gameObject.tag == "Enemy" || other.gameObject.tag == "RangedEnemy") //Deal damage
             {
                 Rigidbody2D otherBody = other.gameObject.GetComponentInChildren<Rigidbody2D>();   //Find Rigid body of colliding object
                 other.gameObject.GetComponentInChildren<EnemyHitboxScripts>().health -= _damage;
@@ -388,7 +388,14 @@ public class playerController : MonoBehaviour
                     {
                         Destroy(child.gameObject);
                     }
-                    Destroy(other.gameObject.transform.parent.gameObject);
+                    if(other.gameObject.tag == "Enemy")
+                    {
+                        Destroy(other.gameObject.transform.parent.gameObject);
+                    }
+                    else if(other.gameObject.tag == "RangedEnemy")
+                    {
+                        Destroy(other.gameObject.transform.parent.gameObject.transform.parent.gameObject);
+                    }
                     Destroy(other.gameObject);
                 }
             }
