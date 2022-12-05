@@ -364,6 +364,11 @@ public class playerController : MonoBehaviour
 
                 if (other.gameObject.GetComponentInChildren<EnemyHitboxScripts>().health <= 0)
                 {
+                    foreach(Transform child in other.gameObject.transform)
+                    {
+                        Destroy(child.gameObject);
+                    }
+                    Destroy(other.gameObject.transform.parent.gameObject);
                     Destroy(other.gameObject);
                 }
             }
@@ -372,6 +377,7 @@ public class playerController : MonoBehaviour
             if(other.gameObject.tag == "DeathPit")
             {
                 health = 0;
+                loadDeathScene();
             }
         }
     }
