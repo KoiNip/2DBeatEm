@@ -1,3 +1,15 @@
+/*************************************************************** 
+*file: Entity.cs 
+*author: T. Diaz 
+*class: CS 4700 – Game Development 
+*assignment: program 4 
+*date last modified: 12/04/2022
+* 
+*purpose: This program creates variables, gets and private sets for the other
+*scripts so they can use. Plus sets those variables.
+* 
+****************************************************************/
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -77,8 +89,6 @@ public class Entity : MonoBehaviour
 
     public virtual void Damage(AttackDetails attackDetails)
     {
-        Instantiate(entityData.hitParticle, aliveGO.transform.position, Quaternion.Euler(0f, 0f, Random.Range(0f, 360f)));
-
         if(GetComponentInChildren<EnemyHitboxScripts>().health <= 0)
         {
             isDead = true;

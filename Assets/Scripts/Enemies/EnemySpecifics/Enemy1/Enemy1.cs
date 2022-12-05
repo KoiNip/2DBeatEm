@@ -48,9 +48,10 @@ public class Enemy1 : Entity
     public override void Damage(AttackDetails attackDetails)
     {
         base.Damage(attackDetails);
+        
         if(isDead)
         {
-            stateMachine.ChangeState(deadState);
+            Destroy(gameObject);
         }
     }
 }
