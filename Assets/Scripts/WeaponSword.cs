@@ -30,8 +30,8 @@ public class WeaponSword: IWeapon
        //Knock ups
         _attacks[1, 1, 2, 0, 0, 0] = new Attack(6, 8, 15, 5, 10, 0f, 0f, 0f, 0.1f, true);    //Ideal knockup combo - suppose to act as a way to knock them up - send them to the moon
         _attacks[2, 1, 0, 0, 0, 0] = new Attack(4, 6, 10, 5, 6, 0f, 0f, 0f, 0.1f, false);     //A weaker knock up
-        _attacks[2, 1, 1, 0, 0, 0] = new Attack(5, 8, 13, 5, 13, 0f, 0f, 0f, 0.1f, true);    //Follow up for combo - knocks them up
-        _attacks[2, 1, 2, 0, 0, 0] = new Attack(6, 8, 15, 5, -15, 0f, 0f, 0f, 0.1f, true);    //Follow up combo - knocks them back down
+        _attacks[2, 1, 1, 0, 0, 0] = new Attack(5, 8, 13, 5, 8, 0f, 0f, 0f, 0.1f, true);    //Follow up for combo - knocks them up
+        _attacks[2, 1, 2, 0, 0, 0] = new Attack(6, 8, 15, 5, -8, 0f, 0f, 0f, 0.1f, true);    //Follow up combo - knocks them back down
 
         _attacks[1, 1, 2, 0, 0, 0] = new Attack(6, 9, 15, 5, 25, 0f, 0f, 0f, 0.1f, true);
 
