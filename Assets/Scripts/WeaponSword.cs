@@ -33,7 +33,7 @@ public class WeaponSword: IWeapon
         _attacks[2, 1, 1, 0, 0, 0] = new Attack(5, 8, 13, 5, 8, 0f, 0f, 0f, 0.1f, true);    //Follow up for combo - knocks them up
         _attacks[2, 1, 2, 0, 0, 0] = new Attack(6, 8, 15, 5, -8, 0f, 0f, 0f, 0.1f, true);    //Follow up combo - knocks them back down
 
-        _attacks[1, 1, 2, 0, 0, 0] = new Attack(6, 9, 15, 5, 25, 0f, 0f, 0f, 0.1f, true);
+        _attacks[1, 1, 2, 0, 0, 0] = new Attack(6, 9, 15, 5, 10, 0f, 0f, 0f, 0.1f, true);
 
     }
 }

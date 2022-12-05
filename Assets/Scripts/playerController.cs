@@ -72,11 +72,8 @@ public class playerController : MonoBehaviour
     //Keeps track of the direction the player is facing, used for dealing knockback to enemy
     bool facingRight;
 
-<<<<<<< HEAD
-=======
     //Keeps track of if the player is dead
     bool isDead;
->>>>>>> 2ee28a877bece183205270af241fc774a5b55c91
 
     // Start is called before the first frame update
     void Start()
@@ -362,7 +359,7 @@ public class playerController : MonoBehaviour
                 otherBody.velocity = _direction;
                 print(other.gameObject.GetComponentInChildren<EnemyHitboxScripts>().health);
 
-                if(other.gameObject.GetComponentInChildren<EnemyHitboxScripts>().health <= 0)
+                if (other.gameObject.GetComponentInChildren<EnemyHitboxScripts>().health <= 0)
                 {
                     Destroy(other.gameObject);
                 }
@@ -389,24 +386,19 @@ public class playerController : MonoBehaviour
     }
 
 
-    public float delay = 1;
+    public float delay = 5;
     //Called when the player dies
     void die()
     {
         anim.Play("Death");
-<<<<<<< HEAD
-        StartCoroutine(loadDeathScreen(delay));
-        //print("Player died");
+        StartCoroutine(loadDeathScene(delay));
+        isDead = true;
     }
 
-    IEnumerator loadDeathScreen(float delay)
+    IEnumerator loadDeathScene(float delay)
     {
         yield return new WaitForSeconds(delay);
         SceneManager.LoadScene("deathScene");
-=======
-        //deathMenu.setMenu();
-        isDead = true;
->>>>>>> 2ee28a877bece183205270af241fc774a5b55c91
     }
 
     //Better way to tell if we're grounded
