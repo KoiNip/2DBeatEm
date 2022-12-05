@@ -22,7 +22,10 @@ public class State
 
     public virtual void Exit()
     {
-        entity.anim.SetBool(animBoolName, false);
+        if(entity !=null)
+        {
+            entity.anim.SetBool(animBoolName, false);
+        }
     }
     public virtual void LogicUpdate()
     {

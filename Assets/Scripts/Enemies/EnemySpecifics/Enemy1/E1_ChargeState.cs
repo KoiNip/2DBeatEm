@@ -37,10 +37,9 @@ public class E1_ChargeState : ChargeState
         base.PhysicsUpdate();
 
         if(performCloseRangeAction)
-            {
-                stateMachine.ChangeState(enemy.lookForPlayerState);
-            }
-
+        {
+            stateMachine.ChangeState(enemy.lookForPlayerState);
+        }
         else if(!isDetectingLedge || isDetectingWall)
         {
             stateMachine.ChangeState(enemy.lookForPlayerState);
