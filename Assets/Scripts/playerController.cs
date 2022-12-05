@@ -139,28 +139,14 @@ public class playerController : MonoBehaviour
                 //Manage the invincibility timer, decrementing as needed and setting playerEntered Trigger
                 manageInvinTimer();
             }
-
+            
             //Call game over if player dies
             if (health <= 0)
             {
                 die();
             }
         }
-        /*
-        attack();
-        handleFlip();
-        Jump();
 
-        
-        //Manage the invincibility timer, decrementing as needed and setting playerEntered Trigger
-        manageInvinTimer();
-
-        //Call game over if player dies
-        if(health <= 0)
-        {
-            die();
-        }
-        */
     }
 
     //Code to run when jumping
@@ -402,8 +388,7 @@ public class playerController : MonoBehaviour
     void die()
     {
         anim.Play("Death");
-        deathMenu.setMenu();
-        print("Player died");
+        //deathMenu.setMenu();
         isDead = true;
     }
 
