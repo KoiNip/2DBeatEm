@@ -46,6 +46,8 @@ public class EnemyProjectile : MonoBehaviour
 		{
 			if(collision.gameObject.tag == "Player")
 			{
+                coll.enabled = false;
+		        gameObject.SetActive(false); //When this hits any object deactivate arrow
 				if(!player.GetComponent<playerController>().isInvincible)
                 {
                     player.GetComponent<playerController>().isInvincible = true;
@@ -56,8 +58,6 @@ public class EnemyProjectile : MonoBehaviour
                 }
 			}
 		}
-        coll.enabled = false;
-		gameObject.SetActive(false); //When this hits any object deactivate arrow
     }
     private void Deactivate()
     {
