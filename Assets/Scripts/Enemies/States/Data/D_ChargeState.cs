@@ -1,3 +1,15 @@
+/*************************************************************** 
+*file: D_ChargeState.cs
+*author: T. Diaz 
+*class: CS 4700 – Game Development 
+*assignment: program 4 
+*date last modified: 12/04/2022
+* 
+*purpose: 
+*
+* 
+****************************************************************/
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

@@ -1,3 +1,15 @@
+/*************************************************************** 
+*file: D_Entity.cs 
+*author: T. Diaz 
+*class: CS 4700 – Game Development 
+*assignment: program 4 
+*date last modified: 12/04/2022
+* 
+*purpose: This program creates variables, gets and private sets for the other
+*scripts so they can use. Plus sets those variables.
+* 
+****************************************************************/
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
