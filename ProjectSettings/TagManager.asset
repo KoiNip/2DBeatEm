@@ -9,6 +9,7 @@ TagManager:
   - Ground
   - DeathPit
   - Arrow
+  - RangedEnemy
   layers:
   - Default
   - TransparentFX

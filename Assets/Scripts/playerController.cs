@@ -78,6 +78,12 @@ public class playerController : MonoBehaviour
     //Counts down until we call the game over screen
     float delay = 1.7f;
 
+    //Keeps track of if we are attacking, if true we prevent the grounded check for animation
+    bool airAttacking;
+
+    //For the health bar
+    public HealthBarScript healthBar;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -120,6 +126,12 @@ public class playerController : MonoBehaviour
 
         //Sets is dead, we are not dead by default
         isDead = false;
+
+        //Sets airAttacking to false as we are not air attacking at the start
+        airAttacking = false;
+
+        //Set max health of health bar
+        healthBar.setMaxHealth(health);
     }
 
     // Update is called once per frame
@@ -150,6 +162,8 @@ public class playerController : MonoBehaviour
             {
                 die();
             }
+
+            healthBar.setHealth(health);
         }
 
     }
@@ -179,10 +193,14 @@ public class playerController : MonoBehaviour
         {
             jumpCount = numOfJumps;
             anim.SetBool("grounded", true);
+            airAttacking = false;
         }
         else if (!IsGrounded())
         {
-            anim.SetBool("grounded", false);
+            if(!airAttacking)
+            {
+                anim.SetBool("grounded", false);
+            }
         }
 
     } 
@@ -200,6 +218,8 @@ public class playerController : MonoBehaviour
         //If timer is active, get input and set corresponding variables to determine attack
         if(attackTimerActive && _endlag <= 0)
         {
+            airAttacking = true;
+            anim.SetBool("grounded", true);
             //Light attack
             if(Input.GetButtonDown("Fire1"))
             {
@@ -349,7 +369,7 @@ public class playerController : MonoBehaviour
         if(other != null)
         {
             //Deal damage to enemy
-            if(other.gameObject.tag == "Enemy") //Deal damage
+            if(other.gameObject.tag == "Enemy" || other.gameObject.tag == "RangedEnemy") //Deal damage
             {
                 Rigidbody2D otherBody = other.gameObject.GetComponentInChildren<Rigidbody2D>();   //Find Rigid body of colliding object
                 other.gameObject.GetComponentInChildren<EnemyHitboxScripts>().health -= _damage;
@@ -368,7 +388,14 @@ public class playerController : MonoBehaviour
                     {
                         Destroy(child.gameObject);
                     }
-                    Destroy(other.gameObject.transform.parent.gameObject);
+                    if(other.gameObject.tag == "Enemy")
+                    {
+                        Destroy(other.gameObject.transform.parent.gameObject);
+                    }
+                    else if(other.gameObject.tag == "RangedEnemy")
+                    {
+                        Destroy(other.gameObject.transform.parent.gameObject.transform.parent.gameObject);
+                    }
                     Destroy(other.gameObject);
                 }
             }
