@@ -75,6 +75,9 @@ public class playerController : MonoBehaviour
     //Keeps track of if the player is dead
     bool isDead;
 
+    //Counts down until we call the game over screen
+    float delay = 1.7f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -385,19 +388,21 @@ public class playerController : MonoBehaviour
         }
     }
 
-
-    public float delay = 5;
     //Called when the player dies
     void die()
     {
         anim.Play("Death");
-        StartCoroutine(loadDeathScene(delay));
+        delay -= Time.deltaTime;
+        print(delay);
+        if(delay <= 0)
+        {
+            loadDeathScene();
+        }
         isDead = true;
     }
 
-    IEnumerator loadDeathScene(float delay)
+    void loadDeathScene()
     {
-        yield return new WaitForSeconds(delay);
         SceneManager.LoadScene("deathScene");
     }
 
