@@ -72,6 +72,11 @@ public class playerController : MonoBehaviour
     //Keeps track of the direction the player is facing, used for dealing knockback to enemy
     bool facingRight;
 
+<<<<<<< HEAD
+=======
+    //Keeps track of if the player is dead
+    bool isDead;
+>>>>>>> 2ee28a877bece183205270af241fc774a5b55c91
 
     // Start is called before the first frame update
     void Start()
@@ -112,50 +117,41 @@ public class playerController : MonoBehaviour
 
         //We face right by default
         facingRight = true;
+
+        //Sets is dead, we are not dead by default
+        isDead = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Get input and apply corresponding velocity to player
-        horizontalInput = Input.GetAxis("Horizontal");
-        body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
-
-        //Animation
-        anim.SetBool("run", horizontalInput != 0);
-
         //Perform jumps and attacks
         //Pause Menu Functions
         if (!pauseMenu.isGamePause)
         {
-            attack();
-            handleFlip();
-            Jump();
+            if(!isDead)
+            {
+                //Get input and apply corresponding velocity to player
+                horizontalInput = Input.GetAxis("Horizontal");
+                body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
 
-            //Manage the invincibility timer, decrementing as needed and setting playerEntered Trigger
-            manageInvinTimer();
+                //Animation
+                anim.SetBool("run", horizontalInput != 0);
+                attack();
+                handleFlip();
+                Jump();
 
+                //Manage the invincibility timer, decrementing as needed and setting playerEntered Trigger
+                manageInvinTimer();
+            }
+            
             //Call game over if player dies
             if (health <= 0)
             {
                 die();
             }
         }
-        /*
-        attack();
-        handleFlip();
-        Jump();
 
-        
-        //Manage the invincibility timer, decrementing as needed and setting playerEntered Trigger
-        manageInvinTimer();
-
-        //Call game over if player dies
-        if(health <= 0)
-        {
-            die();
-        }
-        */
     }
 
     //Code to run when jumping
@@ -398,6 +394,7 @@ public class playerController : MonoBehaviour
     void die()
     {
         anim.Play("Death");
+<<<<<<< HEAD
         StartCoroutine(loadDeathScreen(delay));
         //print("Player died");
     }
@@ -406,6 +403,10 @@ public class playerController : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         SceneManager.LoadScene("deathScene");
+=======
+        //deathMenu.setMenu();
+        isDead = true;
+>>>>>>> 2ee28a877bece183205270af241fc774a5b55c91
     }
 
     //Better way to tell if we're grounded
