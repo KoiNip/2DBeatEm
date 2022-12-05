@@ -9,7 +9,7 @@ public class RangedEnemy : MonoBehaviour
 
     [Header("Ranged Attack")]
     [SerializeField] private Transform firepoint;
-    [SerializeField] private GameObject[] arrows;
+    [SerializeField] private GameObject[] arrow;
 
     [Header("Collider Parameters")]
     [SerializeField] private float colliderDistance;
@@ -50,14 +50,14 @@ public class RangedEnemy : MonoBehaviour
     private void RangedAttack()
     {
         cooldownTimer = 0;
-        arrows[FindArrows()].transform.position = firepoint.position;
-        arrows[FindArrows()].GetComponent<EnemyProjectile>().ActivateProjectile();
+        arrow[FindArrows()].transform.position = firepoint.position;
+        arrow[FindArrows()].GetComponent<EnemyProjectile>().ActivateProjectile();
     }
     private int FindArrows()
     {
-        for (int i = 0; i < arrows.Length; i++)
+        for (int i = 0; i < arrow.Length; i++)
         {
-            if (!arrows[i].activeInHierarchy)
+            if (!arrow[i].activeInHierarchy)
                 return i;
         }
         return 0;

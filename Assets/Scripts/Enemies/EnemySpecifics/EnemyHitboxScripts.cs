@@ -31,7 +31,6 @@ public class EnemyHitboxScripts : MonoBehaviour
         if(health <= 0)
         {
             print("Enemy killed!");
-            Destroy(this);
         }
     }
 

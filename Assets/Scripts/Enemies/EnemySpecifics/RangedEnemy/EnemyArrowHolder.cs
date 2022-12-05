@@ -6,6 +6,9 @@ public class EnemyArrowHolder : MonoBehaviour
 
     private void Update()
     {
-        transform.localScale = enemy.localScale;
+		if (enemy != null)
+		{
+        	transform.localScale = enemy.localScale;
+		}
     }
 }

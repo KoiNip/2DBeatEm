@@ -1,15 +1,21 @@
 using UnityEngine;
 
-public class EnemyProjectile : EnemyDamage
+public class EnemyProjectile : MonoBehaviour
 {
     [SerializeField] private float speed;
     [SerializeField] private float resetTime;
     private float lifetime;
     private Animator anim;
     private BoxCollider2D coll;
+	private GameObject player;
 
     private bool hit;
+	float damage = 20f;
 
+	void Start()
+	{
+		player = GameObject.FindWithTag("Player");
+	}
     private void Awake()
     {
         anim = GetComponent<Animator>();
@@ -36,14 +42,22 @@ public class EnemyProjectile : EnemyDamage
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        hit = true;
-        base.OnTriggerEnter2D(collision); //Execute logic from parent script first
-        coll.enabled = false;
-
-        if (anim != null)
-            anim.SetTrigger("explode"); //When the object is a fireball explode it
-        else
-            gameObject.SetActive(false); //When this hits any object deactivate arrow
+		if(collision != null)
+		{
+			if(collision.gameObject.tag == "Player")
+			{
+                coll.enabled = false;
+		        gameObject.SetActive(false); //When this hits any object deactivate arrow
+				if(!player.GetComponent<playerController>().isInvincible)
+                {
+                    player.GetComponent<playerController>().isInvincible = true;
+                    player.GetComponent<playerController>().invinTimer = player.GetComponent<playerController>().maxInvinceTime;
+                    player.GetComponent<playerController>().health -= damage;
+                    player.GetComponent<Rigidbody2D>().velocity = new Vector2(1f, 1f);
+                    print(player.GetComponent<playerController>().health);
+                }
+			}
+		}
     }
     private void Deactivate()
     {
