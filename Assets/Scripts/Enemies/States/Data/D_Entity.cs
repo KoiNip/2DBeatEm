@@ -5,9 +5,9 @@
 *assignment: program 4 
 *date last modified: 12/04/2022
 * 
-*purpose: This program creates variables, gets and private sets for the other
-*scripts so they can use. Plus sets those variables.
-* 
+*purpose: Data version of the Entity class where it sets the
+*values of distances for the different kinds of checks for the
+* enemy.
 ****************************************************************/
 
 using System.Collections;
@@ -16,6 +16,8 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "newEntityData", menuName = "Data/Entity Data/Base Data")]
 
+//inherits from scriptableobject and set the wallCheck, ledgeCheck, minAgroDistance, maxAgroDistance, and closeRangeDistance to a set value.
+//also creates an GameObject and LayerMasks
 public class D_Entity : ScriptableObject
 {
     public float wallCheckDistance = 0.2f;

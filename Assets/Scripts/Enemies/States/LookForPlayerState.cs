@@ -5,8 +5,8 @@
 *assignment: program 4 
 *date last modified: 12/04/2022
 * 
-*purpose:
-*
+*purpose: This creates a state where the enemy will look for 
+*the player.
 * 
 ****************************************************************/
 
@@ -26,12 +26,14 @@ public class LookForPlayerState : State
     protected float lastTurnTime;
 
     protected int amountOfTurnsDone;
-
+    
+    //calls the parameters from the State script and adds a new parameter in it
     public LookForPlayerState(Entity etity, FiniteStateMachine stateMachine, string animBoolName, D_LookForPlayer stateData) : base(etity, stateMachine, animBoolName)
     {
         this.stateData = stateData;
     }
 
+    //everytime this function is called, it will do what it is inside
     public override void DoChecks()
     {
         base.DoChecks();
@@ -39,6 +41,7 @@ public class LookForPlayerState : State
         isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange();
     }
 
+    //one of the overrides from the state script which when called will do whats inside
     public override void Enter()
     {
         base.Enter();
@@ -52,11 +55,13 @@ public class LookForPlayerState : State
         entity.SetVelocity(0f);
     }
 
+    //one of the overrides from the state script which when called will exit
     public override void Exit()
     {
         base.Exit();
     }
 
+    //one of the overrides from the state script which sets updates to logic based functions
     public override void LogicUpdate()
     {
         base.LogicUpdate();
@@ -86,11 +91,13 @@ public class LookForPlayerState : State
         }
     }
 
+    //one of the overrides from the state script which updates the physics aspects of whats inside
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
     }
 
+    //this function will flip the enemy once called when needed
     public void SetTurnImmediately(bool flip)
     {
         turnImmediately = flip;

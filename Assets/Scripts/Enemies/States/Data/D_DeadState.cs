@@ -5,8 +5,8 @@
 *assignment: program 4 
 *date last modified: 12/04/2022
 * 
-*purpose:
-*
+*purpose: Data version of the DeadState script where it creates
+*two gameObjects for the enemy.
 * 
 ****************************************************************/
 
@@ -16,6 +16,7 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "newDeadStateData", menuName = "Data/State Data/Dead Data")]
 
+//inherits from scriptableobject and creates two objects called deathChunkParticle and deathBloodParticle
 public class D_DeadState : ScriptableObject
 {
     public GameObject deathChunkParticle;

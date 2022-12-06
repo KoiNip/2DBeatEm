@@ -5,8 +5,8 @@
 *assignment: program 4 
 *date last modified: 12/04/2022
 * 
-*purpose:
-*
+*purpose: This is the script that the enemy will use as the
+*main component for its functions
 * 
 ****************************************************************/
 
@@ -42,6 +42,7 @@ public class Enemy1 : Entity
     [SerializeField]
     private Transform meleeAttackPosition;
 
+    //This will create the bools for the animator which it will help creating the transitions between the states
     public override void Start()
     {
         base.Start();
@@ -57,6 +58,7 @@ public class Enemy1 : Entity
 
     }
 
+    //This is an override where once it called, it will check if the enemy is dead and it will destroy the game object.
     public override void Damage(AttackDetails attackDetails)
     {
         base.Damage(attackDetails);

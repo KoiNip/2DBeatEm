@@ -5,8 +5,8 @@
 *assignment: program 4 
 *date last modified: 12/04/2022
 * 
-*purpose:
-*
+*purpose: Data version of the MeleeAttackState script where it
+*sets set values for the attack radius and damage of the enemy.
 * 
 ****************************************************************/
 
@@ -16,6 +16,7 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "newMeleeAttackStateData", menuName = "Data/State Data/Melee Attack Data")]
 
+//inherits from scriptableobject and set the radius and damage to a set value.
 public class D_MeleeAttack : ScriptableObject
 {
    public float attackRadius = 0.5f;
