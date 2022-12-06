@@ -42,6 +42,10 @@ public class RangedEnemy : MonoBehaviour
                 anim.SetTrigger("rangedAttack");
             }
         }
+        else
+        {
+            anim.SetBool("rangedAttack", false);
+        }
 
         if (enemyPatrol != null)
         {
