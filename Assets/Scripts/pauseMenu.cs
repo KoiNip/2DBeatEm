@@ -1,3 +1,13 @@
+/*
+ * File: pauseMenu.cs
+ * Author - Ryan Phan
+ * Class - CS 4700 Game Development
+ * Assignment - Program 4
+ * Date Last Modified: 12/5/2022
+ * 
+ * Purpose: Giving functionality to the pause menu.
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +20,7 @@ public class pauseMenu : MonoBehaviour
     public GameObject pauseUI;
 
     // Update is called once per frame
+    //Checking if game is paused
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -21,6 +32,7 @@ public class pauseMenu : MonoBehaviour
         }
     }
 
+    //Pauses the game
     public void pauseGame()
     {
         pauseUI.SetActive(true);
@@ -28,6 +40,7 @@ public class pauseMenu : MonoBehaviour
         isGamePause = true;
     }
 
+    //Unpauses the game
     public void resumeGame()
     {
         pauseUI.SetActive(false);
@@ -35,12 +48,14 @@ public class pauseMenu : MonoBehaviour
         isGamePause = false;
     }
 
+    //Change the scene to 'Main Menu'
     public void goMenu()
     {
         Time.timeScale = 1;
         SceneManager.LoadScene("Main Menu");
     }
 
+    //Quit the game
     public void quitGame()
     {
         Application.Quit();
