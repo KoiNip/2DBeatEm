@@ -26,6 +26,7 @@ public class Finish : MonoBehaviour
        // finishSound = GetComponent<AudioSource>();
     }
 
+    //If player reaches end of level, send them to the end screen
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.name == "Player" && !levelCompleted)
@@ -36,6 +37,7 @@ public class Finish : MonoBehaviour
         }
     }
 
+    //Call the end screen using this function
     private void CompleteLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
