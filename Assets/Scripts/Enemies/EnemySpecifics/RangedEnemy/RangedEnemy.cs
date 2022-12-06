@@ -1,5 +1,15 @@
 using UnityEngine;
-
+/*************************************************************** 
+*file: RangedEnemy.cs
+*author: Ryley Gonzales
+*class: CS 4700 – Game Development 
+*assignment: Program 4
+*date last modified: 12/5/2022
+* 
+*purpose: This script detects the player and shoots at them if they are found.
+* handles the animations, player detection, and preparing arrows for shooting
+* 
+****************************************************************/ 
 public class RangedEnemy : MonoBehaviour
 {
     [Header("Attack Parameters")]
@@ -23,12 +33,14 @@ public class RangedEnemy : MonoBehaviour
     private Animator anim;
     private EnemyPatrol enemyPatrol;
 
+    //Called at start of game
     private void Awake()
     {
         anim = GetComponent<Animator>();
         enemyPatrol = GetComponentInParent<EnemyPatrol>();
     }
 
+    //Called every frame
     private void Update()
     {
         cooldownTimer += Time.deltaTime;
@@ -54,12 +66,14 @@ public class RangedEnemy : MonoBehaviour
         }
     }
 
+    //Performs the ranged attack
     private void RangedAttack()
     {
         cooldownTimer = 0;
         arrow[FindArrows()].transform.position = firepoint.position;
         arrow[FindArrows()].GetComponent<EnemyProjectile>().ActivateProjectile();
     }
+    //Finds the children arrows for use in the attacks
     private int FindArrows()
     {
         for (int i = 0; i < arrow.Length; i++)
@@ -70,6 +84,7 @@ public class RangedEnemy : MonoBehaviour
         return 0;
     }
 
+    //Handles player detection, returns a bool for if player was detected
     private bool PlayerInSight()
     {
         RaycastHit2D hit =
@@ -79,6 +94,7 @@ public class RangedEnemy : MonoBehaviour
 
         return hit.collider != null;
     }
+    //Draws range on screen for testing purposes
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;

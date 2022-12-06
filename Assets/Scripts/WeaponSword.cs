@@ -2,11 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*************************************************************** 
+*file: WeaponSword.cs
+*author: Corey Nambu
+*class: CS 4700 – Game Development 
+*assignment: Program 4
+*date last modified: 12/5/2022
+* 
+*purpose: This is the weapon class, it is responsible for holding all the attacks the player can use.
+* each attack is an object of the attack class, stored in a 6D array for easy indexing. It may seem unusual,
+* but formatting the attacks in this way allows us to completley avoid iterating through an array to see which
+* attack is being called. We thoroghly looked for different ways to hold the attacks, but every other way we could
+* think of would require a loop iterating through an array in some way. With this implementation, we can call an attack
+* by simply saying weapon.attacks[a1, a2, a3, a4, a5, a6] in the player controller instead of looping.
+* This implementation also allows for super easy attack creation, creating a new attack for the player is literally one line of code
+* It does take time to make good attacks as we have to carefully balance the player and its weapon
+* 
+****************************************************************/ 
 public class WeaponSword: IWeapon
 {
     
     Attack[,,,,,] _attacks = new Attack[3, 3, 3, 3, 3, 3];
     
+    //Implements the attacks from the IWeapon interface
     public Attack[,,,,,] attacks
     {
         get

@@ -1,7 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*************************************************************** 
+*file: EnemyHitboxScripts.cs
+*author: Corey Nambu
+*class: CS 4700 – Game Development 
+*assignment: Program 4
+*date last modified: 12/5/2022
+* 
+*purpose: This script is a generic script used to make enemies deal damage to the player,
+* as well as give the enemy health that the player can deplete by attacking it. This script
+* is what deals damage to the player on contact, and it's damage code would be repurposed for
+* the ranger's arrows as well. The takeDamage function would remain unused, damage to enemies
+* is handled in player controller
+* 
+****************************************************************/ 
 public class EnemyHitboxScripts : MonoBehaviour
 {
     public float health = 100f;    //Health each enemy has
@@ -23,6 +36,7 @@ public class EnemyHitboxScripts : MonoBehaviour
 
     }
 
+    //Deal damage to enemy, unused as this is handled by player controller
     public void takeDamage(float damage, Vector2 knockback)
     {
         body.velocity = knockback;
@@ -34,7 +48,7 @@ public class EnemyHitboxScripts : MonoBehaviour
         }
     }
 
-    //Deal damage to player
+    //Deal damage to player, detects if collided with player and applies damage if so
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other != null)    //If we aren't invincible when we get hit, set player Entered to true

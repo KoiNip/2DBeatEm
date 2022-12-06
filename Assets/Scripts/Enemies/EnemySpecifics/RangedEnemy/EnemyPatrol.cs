@@ -1,5 +1,15 @@
 using UnityEngine;
-
+/*************************************************************** 
+*file: EnemyPatrol.cs
+*author: Ryley Gonzales
+*class: CS 4700 – Game Development 
+*assignment: Program 4
+*date last modified: 12/5/2022
+* 
+*purpose: Controls the enemies movement, ensures the enemy moves between
+* the two set points
+* 
+****************************************************************/ 
 public class EnemyPatrol : MonoBehaviour
 {
     [Header ("Patrol Points")]
@@ -21,15 +31,19 @@ public class EnemyPatrol : MonoBehaviour
     [Header("Enemy Animator")]
     [SerializeField] private Animator anim;
 
+    //Called at start of program
     private void Awake()
     {
         initScale = enemy.localScale;
     }
+
+    //Disables move when called
     private void OnDisable()
     {
         anim.SetBool("move", false);
     }
 
+    //Update is called every frame
     private void Update()
     {
         if (movingLeft)
@@ -48,6 +62,7 @@ public class EnemyPatrol : MonoBehaviour
         }
     }
 
+    //Changes direction enemy moves in
     private void DirectionChange()
     {
         anim.SetBool("move", false);
@@ -57,6 +72,7 @@ public class EnemyPatrol : MonoBehaviour
             movingLeft = !movingLeft;
     }
 
+    //Moves the enemy in the direction it should currently be moving
     private void MoveInDirection(int _direction)
     {
         idleTimer = 0;

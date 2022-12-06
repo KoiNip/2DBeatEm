@@ -1,6 +1,16 @@
 using UnityEngine;
 using System.Collections;
-
+/*************************************************************** 
+*file: EnemyHealth.cs
+*author: Ryley Gonzales
+*class: CS 4700 – Game Development 
+*assignment: Program 4
+*date last modified: 12/5/2022
+* 
+*purpose: Script works with the ranged enemy animator to set animated states,
+* the health value would go unused in favor of the enemy hitbox scripts
+* 
+****************************************************************/ 
 public class EnemyHealth : MonoBehaviour
 {
     [Header ("Health")]
@@ -20,6 +30,8 @@ public class EnemyHealth : MonoBehaviour
         anim = GetComponent<Animator>();
         spriteRend = GetComponent<SpriteRenderer>();
     }
+
+    //Deal damage to the enemy, not used in favor of enemy hitbox scripts
     public void TakeDamage(float _damage)
     {
         currentHealth = Mathf.Clamp(currentHealth - _damage, 0, startingHealth);
@@ -42,6 +54,8 @@ public class EnemyHealth : MonoBehaviour
             }
         }
     }
+
+    //Deactivate enemy when killed
     public void Deactivate()
 	{
         gameObject.SetActive(false);

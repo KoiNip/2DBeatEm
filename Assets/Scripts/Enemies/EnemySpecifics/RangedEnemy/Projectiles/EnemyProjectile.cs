@@ -1,5 +1,16 @@
 using UnityEngine;
 
+/*************************************************************** 
+*file: EnemyProjectile.cs
+*author: Ryley Gonzales
+*class: CS 4700 – Game Development 
+*assignment: Program 4
+*date last modified: 12/5/2022
+* 
+*purpose: This script deals damage to the player when the projectile hits them,
+* and also deletes itself on contact with the player.
+* 
+****************************************************************/ 
 public class EnemyProjectile : MonoBehaviour
 {
     [SerializeField] private float speed;
@@ -22,6 +33,7 @@ public class EnemyProjectile : MonoBehaviour
         coll = GetComponent<BoxCollider2D>();
     }
 
+    //Activates projectile when shot
     public void ActivateProjectile()
     {
         hit = false;
@@ -40,6 +52,7 @@ public class EnemyProjectile : MonoBehaviour
             gameObject.SetActive(false);
     }
 
+    //Used to deal damage to player when enemy comes into contact with him
     private void OnTriggerEnter2D(Collider2D collision)
     {
 		if(collision != null)

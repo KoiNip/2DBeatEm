@@ -1,7 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*************************************************************** 
+*file: Attack.cs
+*author: Corey Nambu
+*class: CS 4700 – Game Development 
+*assignment: Program 4
+*date last modified: 12/5/2022
+* 
+*purpose: This is the attack class, it defines the stats for an attack. This class was created
+* to allow us to easily create more attacks without having to write a lot of code. This class holds
+* all the stats we need for an attack, including damage, knockback, hitbox position and size, attack uptime
+* and endlag, and whether the attack is the last attack in the combo, allowing for a new combo to start
+* 
+****************************************************************/ 
 public class Attack
 {
     float _xHitBox;
@@ -14,7 +26,7 @@ public class Attack
     float _upTime;
     bool isFinal;
 
-
+    //Constructore, makes the attack object
     public Attack(float xHit, float yHit, float damage, float xKnockback, float yKnockback, float xPos, float yPos, float endlag, float upTime, bool isFinal)
     {
         this._xHitBox = xHit;
@@ -29,7 +41,7 @@ public class Attack
     }
 
     /*  Sets the values for the attack in the player controller
-    *
+    *   Takes ref's as we set the ref's equal to the values stored in attack
     *
     */
     public void setAttackValues(ref float xHit, ref float yHit, ref float damage, ref Vector2 direction, ref float xpos, ref float ypos, ref float endlag, ref float uptime, ref bool isFinal)
@@ -45,6 +57,7 @@ public class Attack
         isFinal = this.isFinal;
     }
 
+    //Gets the uptime, not used in favor of set attack values
     public float getUptime()
     {
         return _upTime;

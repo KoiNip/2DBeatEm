@@ -3,6 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/*************************************************************** 
+*file: playerController.cs
+*author: Corey Nambu
+*class: CS 4700 – Game Development 
+*assignment: Program 4
+*date last modified: 12/5/2022
+* 
+*purpose: This is the player controller, it is responsible for moving the player,
+* having the player attack using the weapon they currently have equipped, dealing
+* damage to enemies and killing them, killing the player/calling game over, and just generally handling
+* all the things the player does. Scaffolding is built here to handle the weapon and it's
+* attacks, effectivly implementing things like endlag, uptime, knockback, and more.
+* 
+****************************************************************/ 
 
 public class playerController : MonoBehaviour
 {
@@ -205,6 +219,7 @@ public class playerController : MonoBehaviour
 
     } 
 
+    //Handles all attacks, input, getting stats and positions hitbox
     void attack()
     {
         //If attack input is sent, start timer
@@ -317,6 +332,7 @@ public class playerController : MonoBehaviour
         }
     }
 
+    //Used for the player animation to play when attacking
     public void playSwordSwing(AudioClip clip)
     {
         audioSource.clip = clip;
@@ -409,6 +425,7 @@ public class playerController : MonoBehaviour
         }
     }
 
+    //Determines if the player is currently invunerable from being attacked recently
     void manageInvinTimer()
     {
         if(invinTimer > 0)  //If invincible, decrease timer
@@ -434,6 +451,7 @@ public class playerController : MonoBehaviour
         isDead = true;
     }
 
+    //Load the game over screen, called when player dies
     void loadDeathScene()
     {
         SceneManager.LoadScene("deathScene");
